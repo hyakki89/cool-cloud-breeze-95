@@ -145,7 +145,10 @@ const ProductInfo = ({ selectedColor, quantity, onColorSelect, onQuantityChange,
           <p className="text-red-700 text-sm">Plus que 12 unités en stock - Commandez maintenant !</p>
         </div>
         
-        <Button className="w-full bg-gradient-to-r from-blue-400 to-pink-400 hover:from-pink-400 hover:to-blue-400 text-white font-bold py-4 rounded-2xl text-lg shadow-2xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group">
+        <Button 
+          className="w-full bg-gradient-to-r from-blue-400 to-pink-400 hover:from-pink-400 hover:to-blue-400 text-white font-bold py-4 rounded-2xl text-lg shadow-2xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
+          onClick={onAddToCart}
+        >
           <span className="relative z-10 flex items-center justify-center">
             ⚡ Acheter maintenant - 19,00 € ⚡
           </span>
