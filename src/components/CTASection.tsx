@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const CTASection = () => {
   return (
@@ -44,10 +45,12 @@ const CTASection = () => {
             </div>
 
             {/* Bouton principal */}
-            <Button className="btn-cloud text-white font-bold py-6 px-12 rounded-full text-xl w-full sm:w-auto group mb-4">
-              Je veux ma Zen Ring ⚡
-              <span className="ml-2 group-hover:translate-x-2 transition-transform">💍</span>
-            </Button>
+            <Link to="/product">
+              <Button className="btn-cloud text-white font-bold py-6 px-12 rounded-full text-xl w-full sm:w-auto group mb-4">
+                Je veux ma Zen Ring ⚡
+                <span className="ml-2 group-hover:translate-x-2 transition-transform">💍</span>
+              </Button>
+            </Link>
 
             <div className="text-xs text-gray-500">Paiement 100% sécurisé • Garantie satisfait ou remboursé 15 jours</div>
           </div>

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 const HeroSection = () => {
   return <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
       {/* Nuages flottants en arrière-plan */}
@@ -60,10 +61,12 @@ const HeroSection = () => {
               <div className="text-sm text-gray-600">Livraison gratuite 🚚</div>
             </div>
             
-            <Button className="btn-cloud text-white font-semibold py-4 px-8 rounded-full text-lg border-0 group">
-              Je veux ma Zen Ring ⚡
-              <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
-            </Button>
+            <Link to="/product">
+              <Button className="btn-cloud text-white font-semibold py-4 px-8 rounded-full text-lg border-0 group">
+                Je veux ma Zen Ring ⚡
+                <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+              </Button>
+            </Link>
           </div>
 
           {/* Garanties */}
