@@ -1,11 +1,9 @@
 {% assign current_variant = product.selected_or_first_available_variant %}
 {% assign product_form_id = 'ProductForm-' | append: section.id %}
 
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
-  {% render 'product-header' %}
-  
+<div class="min-h-screen bg-gradient-to-br from-cloud-white via-mint-fresh to-lavender">
   <div class="container mx-auto px-4 py-8">
-    <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-12">
       <!-- Product Images -->
       <div class="space-y-4">
         <div class="relative bg-white rounded-2xl p-4 shadow-lg">
@@ -16,8 +14,8 @@
             class="w-full h-96 object-cover rounded-xl"
           />
           <div class="absolute top-6 left-6 space-y-2">
-            <span class="bg-green-500 text-white px-3 py-1 rounded font-semibold text-sm">✨ Nouveau</span>
-            <span class="bg-red-500 text-white px-3 py-1 rounded font-semibold text-sm animate-pulse">🔥 -34%</span>
+            <span class="bg-green-500 text-white px-3 py-1 rounded font-semibold text-sm">Nouveau</span>
+            <span class="bg-red-500 text-white px-3 py-1 rounded font-semibold text-sm">-34%</span>
           </div>
         </div>
         <div class="grid grid-cols-4 gap-2">
@@ -35,15 +33,15 @@
       <!-- Product Info -->
       <div class="space-y-6">
         <!-- Badges commerciaux -->
-        <div class="flex gap-2 flex-wrap">
+        <div class="flex gap-2 mb-4">
           <span class="bg-green-500 text-white font-semibold px-3 py-1 rounded">✨ Nouveau</span>
-          <span class="bg-red-500 text-white font-semibold px-3 py-1 rounded animate-pulse">🔥 -34%</span>
+          <span class="bg-red-500 text-white font-semibold px-3 py-1 animate-pulse">🔥 -34%</span>
           <span class="bg-orange-500 text-white font-semibold px-3 py-1 rounded">⚡ Stock limité</span>
         </div>
 
         <div>
           <h1 class="text-3xl font-bold bg-gradient-to-r from-gray-900 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">{{ product.title }}</h1>
-          <div class="flex items-center space-x-3 mb-4 flex-wrap">
+          <div class="flex items-center space-x-3 mb-4">
             <div class="flex text-yellow-400">
               {% for i in (1..5) %}
                 <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
@@ -54,7 +52,7 @@
             <span class="text-gray-600 font-medium">(4.9/5 - 127 avis)</span>
             <div class="flex items-center text-green-600 text-sm font-semibold">
               <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
               </svg>
               +2,000 clients satisfaits
             </div>
@@ -65,11 +63,11 @@
         <div class="bg-gradient-to-br from-white via-blue-50 to-purple-50 backdrop-blur-sm border-2 border-blue-200 shadow-xl rounded-2xl p-6">
           <div class="text-center mb-4">
             <div class="flex items-center justify-center space-x-3 mb-2">
-              <span class="text-2xl text-gray-400 line-through">{{ product.compare_at_price | money }}</span>
+              <span class="text-2xl text-gray-400 line-through">29,00 €</span>
               <span class="text-5xl font-black bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent">{{ product.price | money }}</span>
             </div>
             <div class="bg-green-100 rounded-full px-4 py-2 mb-3">
-              <p class="text-green-700 font-bold text-lg">💰 Économisez {{ product.compare_at_price | minus: product.price | money }} (34%)</p>
+              <p class="text-green-700 font-bold text-lg">💰 Économisez 10,00 € (34%)</p>
             </div>
           </div>
           
@@ -102,12 +100,12 @@
           </div>
         </div>
 
-        <!-- Description Premium -->
         <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-200">
-          <p class="text-lg text-gray-800 font-medium leading-relaxed mb-4">
-            🚀 <strong>La bague connectée qui révolutionne ton quotidien !</strong> {{ product.description | truncate: 150 }}
+          <p class="text-lg text-gray-800 font-medium leading-relaxed">
+            🚀 <strong>La bague connectée qui révolutionne ton quotidien !</strong> Contrôle tes réseaux sociaux, ta musique et tes photos d'un simple geste. 
+            Design minimaliste et discret pour une technologie innovante à portée de main.
           </p>
-          <div class="flex flex-wrap gap-2">
+          <div class="mt-4 flex flex-wrap gap-2">
             <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">📱 Compatible iOS/Android</span>
             <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">🎵 Contrôle musical</span>
             <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">📸 Selfies à distance</span>
@@ -126,7 +124,7 @@
                         <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="sr-only">
                         <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" 
                                class="w-12 h-12 rounded-full border-4 border-transparent cursor-pointer transition-all hover:scale-110" 
-                               style="background-color: {% if value == 'Noir' %}#000{% elsif value == 'Blanc' %}#fff{% elsif value == 'Rose' %}#ec4899{% elsif value == 'Bleu' %}#60a5fa{% else %}#ffd700{% endif %}"></label>
+                               style="background-color: {% if value contains 'Blanc' %}#fff{% elsif value contains 'Noir' %}#000{% elsif value contains 'Rose' %}#ec4899{% elsif value contains 'Bleu' %}#60a5fa{% else %}#fff{% endif %}; {% if value contains 'Blanc' %}border: 2px solid #ccc;{% endif %}"></label>
                       {% endfor %}
                     </div>
                   {% else %}
@@ -143,10 +141,10 @@
             <div>
               <label class="block font-semibold mb-2">Quantité :</label>
               <div class="flex items-center space-x-3">
-                <button type="button" onclick="changeQuantity(-1)" class="w-12 h-12 border-2 border-gray-300 rounded-xl flex items-center justify-center hover:bg-gray-50 font-bold">-</button>
-                <span id="quantity-display" class="w-12 text-center font-semibold text-lg">1</span>
+                <button type="button" onclick="changeQuantity(-1)" class="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 font-bold">-</button>
+                <span id="quantity-display" class="w-12 text-center font-semibold">1</span>
                 <input type="hidden" name="quantity" id="quantity" value="1">
-                <button type="button" onclick="changeQuantity(1)" class="w-12 h-12 border-2 border-gray-300 rounded-xl flex items-center justify-center hover:bg-gray-50 font-bold">+</button>
+                <button type="button" onclick="changeQuantity(1)" class="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 font-bold">+</button>
               </div>
             </div>
 
@@ -177,7 +175,7 @@
         <!-- Garanties Premium -->
         <div class="bg-gradient-to-br from-green-50 to-blue-50 backdrop-blur-sm border-2 border-green-200 rounded-2xl p-6">
           <h3 class="font-bold text-gray-800 text-center mb-4">🛡️ VOS GARANTIES PREMIUM</h3>
-          <div class="space-y-3">
+          <div class="space-y-4">
             <div class="flex items-center space-x-3 bg-white/70 rounded-lg p-3 border border-gray-200">
               <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -210,7 +208,23 @@
   </div>
 
   {% section 'product-tabs' %}
-  {% render 'product-footer' %}
+  
+  <!-- Footer simple -->
+  <footer class="mt-16 text-center text-gray-500 text-sm py-20 px-4 relative overflow-hidden">
+    <!-- Fond dégradé dramatique -->
+    <div class="absolute inset-0 bg-gradient-to-br from-sky-blue via-lavender to-pastel-pink opacity-10"></div>
+    
+    <div class="container mx-auto relative z-10">
+      <div class="border-t border-gray-200 pt-8">
+        <p>&copy; 2024 Zen Ring - Contrôle ton monde ⚡</p>
+        <div class="flex justify-center gap-6 mt-4">
+          <a href="#" class="hover:text-sky-blue transition-colors">Mentions légales</a>
+          <a href="#" class="hover:text-sky-blue transition-colors">CGV</a>
+          <a href="#" class="hover:text-sky-blue transition-colors">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 </div>
 
 <script>
