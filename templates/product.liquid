@@ -5,7 +5,7 @@
   {% render 'product-header' %}
   
   <div class="container mx-auto px-4 py-8">
-    <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
       <!-- Product Images -->
       <div class="space-y-4">
         <div class="relative bg-white rounded-2xl p-4 shadow-lg">
@@ -35,8 +35,8 @@
       <!-- Product Info -->
       <div class="space-y-6">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ product.title }}</h1>
-          <p class="text-xl text-gray-600">{{ product.description | truncate: 100 }}</p>
+          <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{{ product.title }}</h1>
+          <p class="text-lg md:text-xl text-gray-600">{{ product.description | truncate: 100 }}</p>
         </div>
 
         <div class="space-y-4">
@@ -49,10 +49,10 @@
             <span class="text-gray-600">(487 avis)</span>
           </div>
 
-          <div class="flex items-center space-x-4">
-            <span class="text-3xl font-bold text-red-600">{{ product.price | money }}</span>
+          <div class="flex items-center space-x-4 flex-wrap">
+            <span class="text-2xl md:text-3xl font-bold text-red-600">{{ product.price | money }}</span>
             {% if product.compare_at_price > product.price %}
-              <span class="text-xl text-gray-500 line-through">{{ product.compare_at_price | money }}</span>
+              <span class="text-lg md:text-xl text-gray-500 line-through">{{ product.compare_at_price | money }}</span>
             {% endif %}
           </div>
         </div>
@@ -96,7 +96,7 @@
               <p class="text-red-700 text-sm">Plus que 12 unités en stock - Commandez maintenant !</p>
             </div>
             
-            <button type="submit" name="add" class="w-full bg-gradient-to-r from-blue-400 to-pink-400 hover:from-pink-400 hover:to-blue-400 text-white font-bold py-4 rounded-2xl text-lg shadow-2xl transform hover:scale-105 transition-all duration-300">
+            <button type="submit" name="add" class="w-full bg-gradient-to-r from-blue-400 to-pink-400 hover:from-pink-400 hover:to-blue-400 text-white font-bold py-3 md:py-4 rounded-2xl text-base md:text-lg shadow-2xl transform hover:scale-105 transition-all duration-300">
               ⚡ Acheter maintenant - {{ product.price | money }} ⚡
             </button>
           </div>

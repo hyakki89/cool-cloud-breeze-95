@@ -63,19 +63,20 @@
   }
 
   .cta-title {
-    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-size: clamp(2rem, 8vw, 4rem);
     font-weight: 700;
     margin-bottom: 1.5rem;
     line-height: 1.1;
   }
   
   .cta-subtitle {
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 4vw, 1.25rem);
     color: rgb(107, 114, 128);
     margin-bottom: 2rem;
     max-width: 32rem;
     margin-left: auto;
     margin-right: auto;
+    padding: 0 1rem;
   }
 
   .offer-card {
@@ -108,16 +109,17 @@
     justify-content: center;
     gap: 1rem;
     margin-bottom: 1rem;
+    flex-wrap: wrap;
   }
   
   .old-price {
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
     color: rgb(156, 163, 175);
     text-decoration: line-through;
   }
   
   .current-price {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 6vw, 2.5rem);
     font-weight: 700;
     background: linear-gradient(135deg, #87CEEB, #8B5CF6, #FFB6C1);
     -webkit-background-clip: text;
@@ -252,7 +254,7 @@
         </div>
 
         <!-- Bouton principal -->
-        <a href="{{ collections['zen-ring'].products.first.url | default: '/products/zen-ring' }}" class="btn-cloud" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1.25rem; font-weight: 700; padding: 1.5rem 3rem; border-radius: 9999px; width: 100%; justify-content: center; margin-bottom: 1rem; text-decoration: none; color: white;">
+        <a href="{{ collections['zen-ring'].products.first.url | default: '/products/zen-ring' }}" class="btn-cloud" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: clamp(1rem, 3vw, 1.25rem); font-weight: 700; padding: 1rem 2rem; border-radius: 9999px; width: 100%; justify-content: center; margin-bottom: 1rem; text-decoration: none; color: white; white-space: nowrap;">
           Je veux ma Zen Ring ⚡
           <span style="transition: transform 0.2s;">💍</span>
         </a>
