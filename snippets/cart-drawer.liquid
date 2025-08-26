@@ -1,0 +1,26 @@
+<cart-drawer class="cart-drawer">
+  <div class="cart-overlay"></div>
+  <div class="cart-content">
+    <div class="cart-header">
+      <h2 class="text-lg font-semibold">Votre panier</h2>
+      <button class="cart-close" aria-label="Fermer le panier">×</button>
+    </div>
+    
+    <div class="cart-items" id="cart-items">
+      <!-- Cart items will be populated by JavaScript -->
+    </div>
+    
+    <div class="cart-footer">
+      <div class="cart-subtotal">
+        <span>Sous-total</span>
+        <span id="cart-total">{{ cart.total_price | money }}</span>
+      </div>
+      <button class="cart-checkout">
+        Commander
+      </button>
+      <p class="text-sm text-gray-600 text-center mt-2">
+        Taxes et livraison calculées à la commande
+      </p>
+    </div>
+  </div>
+</cart-drawer>

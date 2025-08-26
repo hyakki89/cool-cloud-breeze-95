@@ -1,0 +1,158 @@
+{{ 'cta-section.css' | asset_url | stylesheet_tag }}
+
+<section class="py-20 relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
+  <!-- Animated Background Elements -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-0 left-1/4 w-64 h-64 bg-white/10 rounded-full animate-float"></div>
+    <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-white/5 rounded-full animate-float-delay"></div>
+    <div class="absolute top-1/2 left-0 w-48 h-48 bg-white/15 rounded-full animate-pulse-soft"></div>
+  </div>
+
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="max-w-4xl mx-auto text-center">
+      <!-- Alert Badge -->
+      <div class="inline-block bg-red-500 text-white px-6 py-2 rounded-full text-sm font-bold mb-8 animate-pulse">
+        🔥 STOCK LIMITÉ - Plus que 47 unités disponibles !
+      </div>
+
+      <!-- Main Heading -->
+      <h2 class="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+        Révolutionnez votre quotidien dès <span class="bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">AUJOURD'HUI</span>
+      </h2>
+
+      <p class="text-xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
+        Ne laissez pas cette opportunité vous échapper. La Zen Ring transforme radicalement votre interaction avec la technologie.
+      </p>
+
+      <!-- Product Offer -->
+      <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-8 mb-12 border border-white/30">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div class="text-left">
+            <h3 class="text-2xl font-bold text-white mb-4">🎁 Offre Spéciale Limitée</h3>
+            <div class="space-y-2 text-white/90">
+              <div class="flex items-center">
+                <span class="text-3xl font-bold text-red-300 line-through mr-3">29,00 €</span>
+                <span class="text-4xl font-bold text-yellow-300">19,00 €</span>
+              </div>
+              <p class="text-lg">✨ Livraison gratuite en France</p>
+              <p class="text-lg">🔒 Garantie 30 jours satisfait ou remboursé</p>
+              <p class="text-lg">⚡ Expédition sous 24h</p>
+            </div>
+          </div>
+          
+          <div>
+            <a href="{{ collections['zen-ring'].products.first.url | default: '/products/zen-ring' }}" 
+               class="group relative bg-gradient-to-r from-yellow-400 to-orange-400 text-gray-900 px-8 py-6 rounded-2xl font-bold text-xl shadow-2xl transform hover:scale-110 transition-all duration-300 overflow-hidden block text-center">
+              <span class="relative z-10">Commander maintenant ⚡</span>
+              <div class="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </a>
+            
+            <p class="text-white/80 text-sm mt-4">
+              <span class="text-green-300">🟢</span> Paiement 100% sécurisé
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Countdown Timer -->
+      <div class="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/20">
+        <p class="text-white text-lg mb-4">⏰ Cette offre se termine dans :</p>
+        <div class="flex justify-center space-x-4 text-white">
+          <div class="text-center">
+            <div class="bg-white/20 rounded-lg p-3 min-w-16">
+              <span class="text-2xl font-bold" id="countdown-hours">23</span>
+            </div>
+            <p class="text-sm mt-1">Heures</p>
+          </div>
+          <div class="text-center">
+            <div class="bg-white/20 rounded-lg p-3 min-w-16">
+              <span class="text-2xl font-bold" id="countdown-minutes">45</span>
+            </div>
+            <p class="text-sm mt-1">Minutes</p>
+          </div>
+          <div class="text-center">
+            <div class="bg-white/20 rounded-lg p-3 min-w-16">
+              <span class="text-2xl font-bold" id="countdown-seconds">12</span>
+            </div>
+            <p class="text-sm mt-1">Secondes</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Signals -->
+      <div class="flex flex-wrap justify-center items-center gap-6 text-white/80">
+        <div class="flex items-center space-x-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+          </svg>
+          <span>Paiement sécurisé SSL</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+          </svg>
+          <span>15,000+ clients satisfaits</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Garantie 30 jours</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simple Footer -->
+  <footer class="mt-16 pt-8 border-t border-white/20">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-wrap justify-center items-center gap-6 text-white/60 text-sm">
+        <a href="#" class="hover:text-white transition-colors">Mentions légales</a>
+        <a href="#" class="hover:text-white transition-colors">CGV</a>
+        <a href="#" class="hover:text-white transition-colors">Contact</a>
+      </div>
+      <p class="text-center text-white/40 text-sm mt-4">
+        © 2024 Zen Ring. Tous droits réservés.
+      </p>
+    </div>
+  </footer>
+</section>
+
+<script>
+  // Simple countdown simulation
+  function updateCountdown() {
+    const hours = document.getElementById('countdown-hours');
+    const minutes = document.getElementById('countdown-minutes');
+    const seconds = document.getElementById('countdown-seconds');
+    
+    let h = parseInt(hours.textContent);
+    let m = parseInt(minutes.textContent);
+    let s = parseInt(seconds.textContent);
+    
+    s--;
+    if (s < 0) {
+      s = 59;
+      m--;
+      if (m < 0) {
+        m = 59;
+        h--;
+        if (h < 0) {
+          h = 23;
+        }
+      }
+    }
+    
+    hours.textContent = h.toString().padStart(2, '0');
+    minutes.textContent = m.toString().padStart(2, '0');
+    seconds.textContent = s.toString().padStart(2, '0');
+  }
+  
+  setInterval(updateCountdown, 1000);
+</script>
+
+{% schema %}
+{
+  "name": "CTA Section",
+  "settings": []
+}
+{% endschema %}

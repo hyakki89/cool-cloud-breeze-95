@@ -1,0 +1,117 @@
+{{ 'benefits-section.css' | asset_url | stylesheet_tag }}
+
+<section class="py-20 relative overflow-hidden bg-gradient-to-b from-white to-blue-50">
+  <!-- Background decoration -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-20 left-10 w-32 h-32 bg-purple-200 rounded-full opacity-20 animate-float"></div>
+    <div class="absolute bottom-20 right-10 w-40 h-40 bg-blue-200 rounded-full opacity-15 animate-float-delay"></div>
+  </div>
+
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+        Pourquoi choisir la <span class="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">Zen Ring</span> ?
+      </h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Découvrez les fonctionnalités révolutionnaires qui font de notre bague connectée l'accessoire indispensable de votre quotidien moderne.
+      </p>
+    </div>
+
+    <!-- Main Benefits Grid -->
+    <div class="grid md:grid-cols-3 gap-8 mb-16">
+      <!-- Benefit 1 -->
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/20 hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center">
+        <div class="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Contrôle Gestuel Intuitif</h3>
+        <p class="text-gray-600">
+          Gérez vos appareils connectés d'un simple mouvement du doigt. Changez de musique, acceptez des appels, contrôlez l'éclairage.
+        </p>
+      </div>
+
+      <!-- Benefit 2 -->
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/20 hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center">
+        <div class="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Autonomie Exceptionnelle</h3>
+        <p class="text-gray-600">
+          Jusqu'à 7 jours d'utilisation avec une seule charge. Rechargement rapide en 30 minutes pour une journée complète.
+        </p>
+      </div>
+
+      <!-- Benefit 3 -->
+      <div class="group bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-white/20 hover:shadow-2xl hover:scale-105 transition-all duration-300 text-center">
+        <div class="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-pink-400 to-pink-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Design Élégant</h3>
+        <p class="text-gray-600">
+          Un design minimaliste et sophistiqué qui s'adapte à tous les styles. Résistante à l'eau et aux chocs du quotidien.
+        </p>
+      </div>
+    </div>
+
+    <!-- Additional Benefits -->
+    <div class="grid md:grid-cols-2 gap-6 mb-16">
+      <div class="flex items-start space-x-4 bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+        <span class="text-2xl">🔒</span>
+        <div>
+          <h4 class="font-semibold text-gray-900 mb-2">Sécurité Avancée</h4>
+          <p class="text-gray-600">Authentification biométrique et chiffrement des données pour une sécurité maximale.</p>
+        </div>
+      </div>
+
+      <div class="flex items-start space-x-4 bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+        <span class="text-2xl">📱</span>
+        <div>
+          <h4 class="font-semibold text-gray-900 mb-2">Compatibilité Universelle</h4>
+          <p class="text-gray-600">Compatible avec iOS, Android et tous vos appareils connectés préférés.</p>
+        </div>
+      </div>
+
+      <div class="flex items-start space-x-4 bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+        <span class="text-2xl">💡</span>
+        <div>
+          <h4 class="font-semibold text-gray-900 mb-2">IA Intégrée</h4>
+          <p class="text-gray-600">Apprentissage automatique pour s'adapter à vos habitudes et préférences.</p>
+        </div>
+      </div>
+
+      <div class="flex items-start space-x-4 bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+        <span class="text-2xl">🌟</span>
+        <div>
+          <h4 class="font-semibold text-gray-900 mb-2">Mises à Jour Régulières</h4>
+          <p class="text-gray-600">Nouvelles fonctionnalités ajoutées régulièrement via des mises à jour OTA.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Perfect For Section -->
+    <div class="text-center">
+      <h3 class="text-2xl font-bold text-gray-900 mb-8">Parfait pour :</h3>
+      <div class="flex flex-wrap justify-center gap-3">
+        {% assign use_cases = "Les professionnels actifs,Les tech enthusiasts,Les amateurs de fitness,Les créateurs de contenu,Les gamers,Les parents occupés" | split: "," %}
+        {% for use_case in use_cases %}
+          <span class="bg-gradient-to-r from-blue-100 to-purple-100 text-gray-800 px-4 py-2 rounded-full text-sm font-medium hover:from-blue-200 hover:to-purple-200 transition-all duration-300 cursor-default">
+            {{ use_case }}
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefits Section",
+  "settings": []
+}
+{% endschema %}

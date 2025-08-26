@@ -1,0 +1,37 @@
+<footer class="bg-gray-900 text-white py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid md:grid-cols-4 gap-8">
+      <div>
+        <h3 class="text-xl font-bold mb-4">{{ shop.name | default: "Zen Ring" }}</h3>
+        <p class="text-gray-400">Contrôle ton monde ⚡</p>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4">Liens rapides</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="/" class="hover:text-white transition-colors">Accueil</a></li>
+          <li><a href="/collections/all" class="hover:text-white transition-colors">Produits</a></li>
+          <li><a href="/pages/contact" class="hover:text-white transition-colors">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4">Service client</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="/pages/faq" class="hover:text-white transition-colors">FAQ</a></li>
+          <li><a href="/pages/shipping" class="hover:text-white transition-colors">Livraison</a></li>
+          <li><a href="/pages/returns" class="hover:text-white transition-colors">Retours</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-4">Légal</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="/pages/terms" class="hover:text-white transition-colors">CGV</a></li>
+          <li><a href="/pages/legal" class="hover:text-white transition-colors">Mentions légales</a></li>
+          <li><a href="/pages/privacy" class="hover:text-white transition-colors">Confidentialité</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | default: "Zen Ring" }}. Tous droits réservés.</p>
+    </div>
+  </div>
+</footer>
