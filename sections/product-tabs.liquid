@@ -1,288 +1,275 @@
-{{ 'product-tabs.css' | asset_url | stylesheet_tag }}
+{% assign product = product | default: blank %}
 
-<section class="py-16 bg-gradient-to-b from-gray-50 to-white">
-  <div class="container mx-auto px-4">
-    <!-- Feature Highlights -->
-    <div class="grid md:grid-cols-4 gap-6 mb-12">
-      <div class="flex items-center space-x-3 bg-white rounded-xl p-4 shadow-lg border border-gray-100">
-        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-          <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-          </svg>
+<div class="relative overflow-hidden py-16">
+  <!-- Fond dégradé -->
+  <div class="absolute inset-0 bg-gradient-to-br from-sky-blue/5 via-lavender/5 to-pastel-pink/5"></div>
+  
+  <div class="container mx-auto px-4 relative z-10">
+    <!-- Section de garanties -->
+    <div class="mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="card-cloud rounded-2xl p-4 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div class="text-2xl mb-2">🛡️</div>
+          <span class="text-sm font-medium text-gray-700">Garantie 30 jours satisfait ou remboursé</span>
         </div>
-        <span class="text-sm font-medium text-gray-700">Garantie 30 jours</span>
-      </div>
-      
-      <div class="flex items-center space-x-3 bg-white rounded-xl p-4 shadow-lg border border-gray-100">
-        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-          <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
-          </svg>
+        <div class="card-cloud rounded-2xl p-4 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div class="text-2xl mb-2">🔒</div>
+          <span class="text-sm font-medium text-gray-700">Paiement 100% sécurisé</span>
         </div>
-        <span class="text-sm font-medium text-gray-700">Paiement sécurisé</span>
-      </div>
-      
-      <div class="flex items-center space-x-3 bg-white rounded-xl p-4 shadow-lg border border-gray-100">
-        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-          <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
-          </svg>
+        <div class="card-cloud rounded-2xl p-4 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div class="text-2xl mb-2">🚚</div>
+          <span class="text-sm font-medium text-gray-700">Livraison gratuite en France</span>
         </div>
-        <span class="text-sm font-medium text-gray-700">Livraison gratuite</span>
-      </div>
-      
-      <div class="flex items-center space-x-3 bg-white rounded-xl p-4 shadow-lg border border-gray-100">
-        <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
-          <svg class="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-          </svg>
+        <div class="card-cloud rounded-2xl p-4 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <div class="text-2xl mb-2">⏰</div>
+          <span class="text-sm font-medium text-gray-700">Stock limité - Commandez vite !</span>
         </div>
-        <span class="text-sm font-medium text-gray-700">Support 24/7</span>
       </div>
     </div>
 
-    <!-- Tabs Navigation -->
-    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-      <div class="border-b border-gray-200">
-        <nav class="flex">
-          <button class="tab-button active flex-1 py-4 px-6 text-center font-medium border-b-2 border-blue-500 text-blue-600 bg-blue-50" onclick="showTab('description')">
-            Description
-          </button>
-          <button class="tab-button flex-1 py-4 px-6 text-center font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700" onclick="showTab('specs')">
-            Caractéristiques
-          </button>
-          <button class="tab-button flex-1 py-4 px-6 text-center font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700" onclick="showTab('reviews')">
-            Avis
-          </button>
-          <button class="tab-button flex-1 py-4 px-6 text-center font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700" onclick="showTab('shipping')">
-            Livraison
-          </button>
-        </nav>
+    <!-- Onglets de navigation -->
+    <div class="w-full">
+      <div class="grid w-full grid-cols-2 md:grid-cols-4 card-cloud rounded-2xl p-2 mb-8 overflow-x-auto">
+        <button 
+          onclick="showTab('description')" 
+          id="tab-description"
+          class="tab-button active rounded-xl font-semibold text-sm py-3 px-4 transition-all duration-300"
+        >
+          Description
+        </button>
+        <button 
+          onclick="showTab('specifications')"
+          id="tab-specifications"
+          class="tab-button rounded-xl font-semibold text-sm py-3 px-4 transition-all duration-300"
+        >
+          Caractéristiques
+        </button>
+        <button 
+          onclick="showTab('reviews')"
+          id="tab-reviews"
+          class="tab-button rounded-xl font-semibold text-sm py-3 px-4 transition-all duration-300"
+        >
+          <span class="hidden sm:inline">Avis (127)</span>
+          <span class="sm:hidden">Avis</span>
+        </button>
+        <button 
+          onclick="showTab('shipping')"
+          id="tab-shipping"
+          class="tab-button rounded-xl font-semibold text-sm py-3 px-4 transition-all duration-300"
+        >
+          Livraison
+        </button>
+      </div>
+      
+      <!-- Contenu Description -->
+      <div id="content-description" class="tab-content active">
+        <div class="card-cloud rounded-3xl p-8 hover:shadow-lg transition-all duration-300">
+          <h3 class="text-3xl font-bold mb-6 gradient-text">Description du produit</h3>
+          <p class="text-gray-700 mb-8 text-lg leading-relaxed">
+            {% if product.description != blank %}
+              {{ product.description }}
+            {% else %}
+              La Zen Ring est une bague connectée Bluetooth révolutionnaire qui transforme votre façon d'interagir avec vos appareils. 
+              Grâce à ses gestes tactiles intuitifs et son design minimaliste, elle devient l'accessoire indispensable de votre quotidien numérique.
+            {% endif %}
+          </p>
+          <h4 class="text-xl font-semibold mb-4 text-gray-800">Fonctionnalités clés :</h4>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="bg-gradient-to-r from-white/80 to-white/60 p-4 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-md transition-all duration-300">
+              <span class="text-xl mr-3">📱</span>
+              <span class="text-gray-700 font-medium">Contrôle des réseaux sociaux (TikTok, Instagram, YouTube)</span>
+            </div>
+            <div class="bg-gradient-to-r from-white/80 to-white/60 p-4 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-md transition-all duration-300">
+              <span class="text-xl mr-3">🎶</span>
+              <span class="text-gray-700 font-medium">Gestion de la musique et du volume</span>
+            </div>
+            <div class="bg-gradient-to-r from-white/80 to-white/60 p-4 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-md transition-all duration-300">
+              <span class="text-xl mr-3">📸</span>
+              <span class="text-gray-700 font-medium">Déclencheur photo/vidéo à distance</span>
+            </div>
+            <div class="bg-gradient-to-r from-white/80 to-white/60 p-4 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-md transition-all duration-300">
+              <span class="text-xl mr-3">🔋</span>
+              <span class="text-gray-700 font-medium">Autonomie 72h + boîtier de recharge inclus</span>
+            </div>
+            <div class="bg-gradient-to-r from-white/80 to-white/60 p-4 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-md transition-all duration-300">
+              <span class="text-xl mr-3">📖</span>
+              <span class="text-gray-700 font-medium">Navigation intuitive pour lire des e-books</span>
+            </div>
+            <div class="bg-gradient-to-r from-white/80 to-white/60 p-4 rounded-xl backdrop-blur-sm border border-white/20 hover:shadow-md transition-all duration-300">
+              <span class="text-xl mr-3">🎯</span>
+              <span class="text-gray-700 font-medium">Compatible iOS et Android</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Tab Content -->
-      <div class="p-8">
-        <!-- Description Tab -->
-        <div id="description" class="tab-content">
-          <h3 class="text-2xl font-bold text-gray-900 mb-6">Découvrez la révolution du contrôle gestuel</h3>
-          
-          <div class="grid md:grid-cols-2 gap-8">
-            <div class="space-y-4">
-              <h4 class="text-lg font-semibold text-gray-800">🎯 Fonctionnalités principales :</h4>
-              <ul class="space-y-2 text-gray-600">
-                <li class="flex items-start">
-                  <span class="text-green-500 mr-2">✓</span>
-                  Contrôle gestuel intuitif pour tous vos appareils
-                </li>
-                <li class="flex items-start">
-                  <span class="text-green-500 mr-2">✓</span>
-                  Autonomie exceptionnelle de 7 jours
-                </li>
-                <li class="flex items-start">
-                  <span class="text-green-500 mr-2">✓</span>
-                  Design élégant et résistant à l'eau
-                </li>
-                <li class="flex items-start">
-                  <span class="text-green-500 mr-2">✓</span>
-                  Compatibilité universelle iOS/Android
-                </li>
-              </ul>
+      <!-- Contenu Caractéristiques -->
+      <div id="content-specifications" class="tab-content">
+        <div class="card-cloud rounded-3xl p-8 hover:shadow-lg transition-all duration-300">
+          <h3 class="text-3xl font-bold mb-6 gradient-text">Caractéristiques techniques</h3>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="bg-gradient-to-br from-white/90 to-white/70 p-5 rounded-xl backdrop-blur-sm border border-white/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="text-2xl mb-2">📏</div>
+              <div class="font-bold text-gray-800 mb-1">Dimensions</div>
+              <div class="text-gray-600 text-sm">Taille unique ajustable</div>
             </div>
-            
-            <div class="space-y-4">
-              <h4 class="text-lg font-semibold text-gray-800">⚡ Cas d'usage :</h4>
-              <ul class="space-y-2 text-gray-600">
-                <li>• Contrôler votre musique pendant le sport</li>
-                <li>• Naviguer dans vos présentations</li>
-                <li>• Gérer votre maison connectée</li>
-                <li>• Prendre des photos à distance</li>
-                <li>• Répondre aux appels discrètement</li>
-              </ul>
+            <div class="bg-gradient-to-br from-white/90 to-white/70 p-5 rounded-xl backdrop-blur-sm border border-white/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="text-2xl mb-2">⚖️</div>
+              <div class="font-bold text-gray-800 mb-1">Poids</div>
+              <div class="text-gray-600 text-sm">8g ultra-léger</div>
             </div>
-          </div>
-          
-          <div class="mt-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
-            <p class="text-blue-800">
-              <strong>Innovation brevetée :</strong> Notre technologie de reconnaissance gestuelle propriétaire 
-              vous permet de contrôler vos appareils avec une précision inégalée, même dans l'obscurité.
-            </p>
-          </div>
-        </div>
-
-        <!-- Specifications Tab -->
-        <div id="specs" class="tab-content hidden">
-          <h3 class="text-2xl font-bold text-gray-900 mb-6">Spécifications techniques</h3>
-          
-          <div class="grid md:grid-cols-2 gap-8">
-            <div class="space-y-6">
-              <div>
-                <h4 class="text-lg font-semibold text-gray-800 mb-3">📐 Dimensions</h4>
-                <div class="bg-gray-50 rounded-lg p-4">
-                  <ul class="space-y-1 text-gray-600">
-                    <li>Diamètre : 20mm</li>
-                    <li>Largeur : 8mm</li>
-                    <li>Poids : 12g</li>
-                    <li>Tailles : 6-12 (US)</li>
-                  </ul>
-                </div>
-              </div>
-              
-              <div>
-                <h4 class="text-lg font-semibold text-gray-800 mb-3">🔋 Autonomie</h4>
-                <div class="bg-gray-50 rounded-lg p-4">
-                  <ul class="space-y-1 text-gray-600">
-                    <li>Utilisation normale : 7 jours</li>
-                    <li>Utilisation intensive : 4 jours</li>
-                    <li>Temps de charge : 30 minutes</li>
-                    <li>Type de charge : USB-C magnétique</li>
-                  </ul>
-                </div>
-              </div>
+            <div class="bg-gradient-to-br from-white/90 to-white/70 p-5 rounded-xl backdrop-blur-sm border border-white/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="text-2xl mb-2">🔋</div>
+              <div class="font-bold text-gray-800 mb-1">Batterie</div>
+              <div class="text-gray-600 text-sm">Lithium-ion rechargeable</div>
             </div>
-            
-            <div class="space-y-6">
-              <div>
-                <h4 class="text-lg font-semibold text-gray-800 mb-3">📱 Compatibilité</h4>
-                <div class="bg-gray-50 rounded-lg p-4">
-                  <ul class="space-y-1 text-gray-600">
-                    <li>iOS 12.0+ (iPhone 6s et plus récent)</li>
-                    <li>Android 8.0+ avec Bluetooth 5.0</li>
-                    <li>Windows 10+ (fonctions limitées)</li>
-                    <li>Plus de 200 applications supportées</li>
-                  </ul>
-                </div>
-              </div>
-              
-              <div>
-                <h4 class="text-lg font-semibold text-gray-800 mb-3">🛡️ Résistance</h4>
-                <div class="bg-gray-50 rounded-lg p-4">
-                  <ul class="space-y-1 text-gray-600">
-                    <li>Norme IP67 (étanche)</li>
-                    <li>Résistant aux chocs</li>
-                    <li>Matériaux hypoallergéniques</li>
-                    <li>Température : -10°C à +60°C</li>
-                  </ul>
-                </div>
-              </div>
+            <div class="bg-gradient-to-br from-white/90 to-white/70 p-5 rounded-xl backdrop-blur-sm border border-white/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="text-2xl mb-2">⏱️</div>
+              <div class="font-bold text-gray-800 mb-1">Autonomie</div>
+              <div class="text-gray-600 text-sm">72 heures d'utilisation</div>
+            </div>
+            <div class="bg-gradient-to-br from-white/90 to-white/70 p-5 rounded-xl backdrop-blur-sm border border-white/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="text-2xl mb-2">⚡</div>
+              <div class="font-bold text-gray-800 mb-1">Temps de charge</div>
+              <div class="text-gray-600 text-sm">2 heures (boîtier inclus)</div>
+            </div>
+            <div class="bg-gradient-to-br from-white/90 to-white/70 p-5 rounded-xl backdrop-blur-sm border border-white/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="text-2xl mb-2">📡</div>
+              <div class="font-bold text-gray-800 mb-1">Connectivité</div>
+              <div class="text-gray-600 text-sm">Bluetooth 5.0</div>
+            </div>
+            <div class="bg-gradient-to-br from-white/90 to-white/70 p-5 rounded-xl backdrop-blur-sm border border-white/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="text-2xl mb-2">📱</div>
+              <div class="font-bold text-gray-800 mb-1">Compatibilité</div>
+              <div class="text-gray-600 text-sm">iOS et Android</div>
+            </div>
+            <div class="bg-gradient-to-br from-white/90 to-white/70 p-5 rounded-xl backdrop-blur-sm border border-white/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <div class="text-2xl mb-2">💎</div>
+              <div class="font-bold text-gray-800 mb-1">Matériaux</div>
+              <div class="text-gray-600 text-sm">Titane et silicone médical</div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Reviews Tab -->
-        <div id="reviews" class="tab-content hidden">
-          <h3 class="text-2xl font-bold text-gray-900 mb-6">Avis clients vérifiés</h3>
-          
-          <div class="grid md:grid-cols-3 gap-6 mb-8">
-            <div class="text-center">
-              <div class="text-4xl font-bold text-blue-600 mb-2">4.9/5</div>
-              <div class="flex justify-center mb-2">
-                {% for i in (1..5) %}
-                  <svg class="w-5 h-5 fill-current text-yellow-400" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                  </svg>
-                {% endfor %}
-              </div>
-              <p class="text-gray-600">487 avis</p>
+      <!-- Contenu Avis -->
+      <div id="content-reviews" class="tab-content">
+        <div class="card-cloud rounded-3xl p-8 hover:shadow-lg transition-all duration-300">
+          <div class="text-center mb-10">
+            <div class="text-5xl font-bold gradient-text mb-3">4.9/5</div>
+            <div class="flex justify-center text-yellow-400 mb-3">
+              {% for i in (1..5) %}
+                <svg class="w-8 h-8 fill-current" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              {% endfor %}
             </div>
-            
-            <div class="text-center">
-              <div class="text-4xl font-bold text-green-600 mb-2">98%</div>
-              <p class="text-gray-600">Recommandent le produit</p>
-            </div>
-            
-            <div class="text-center">
-              <div class="text-4xl font-bold text-purple-600 mb-2">15,000+</div>
-              <p class="text-gray-600">Clients satisfaits</p>
-            </div>
+            <p class="text-gray-600 text-lg">Basé sur 127 avis</p>
           </div>
-          
+
           <div class="space-y-6">
-            {% assign reviews = "Marie L.|⭐⭐⭐⭐⭐|Incroyable ! Je contrôle toute ma maison connectée d'un simple geste.,Thomas R.|⭐⭐⭐⭐⭐|Parfait pour mes présentations ! Mes collègues pensent que je suis magicien.,Sarah M.|⭐⭐⭐⭐⭐|L'autonomie est folle ! Une semaine sans recharge.,Alex D.|⭐⭐⭐⭐|Très bon produit mais un peu cher. Cependant la qualité est là." | split: "," %}
-            {% for review in reviews %}
-              {% assign review_parts = review | split: "|" %}
-              <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                <div class="flex items-center justify-between mb-3">
-                  <h4 class="font-semibold text-gray-900">{{ review_parts[0] }}</h4>
-                  <span class="text-yellow-400">{{ review_parts[1] }}</span>
+            {% assign reviews = "Emma L.|Il y a 2 jours|Géniale pour scroller sur TikTok sans lever le bras ! Design super discret 💍|👩‍💼,Lucas M.|Il y a 5 jours|Perfect pour mes photos Instagram ! Plus besoin de minuteur, je contrôle tout avec ma bague ⚡|👨‍💻,Sarah K.|Il y a 1 semaine|Révolutionnaire ! Je contrôle ma musique pendant le sport, mes collègues sont jaloux 🎶|👩‍🎨" | split: "," %}
+            {% for review_data in reviews %}
+              {% assign review_info = review_data | split: "|" %}
+              <div class="bg-gradient-to-r from-white/90 to-white/70 p-6 rounded-2xl backdrop-blur-sm border border-white/30 hover:shadow-md transition-all duration-300">
+                <div class="flex justify-between items-start mb-4">
+                  <div class="flex items-center gap-3">
+                    <div class="text-2xl">{{ review_info[3] }}</div>
+                    <div>
+                      <div class="font-bold text-gray-800">{{ review_info[0] }}</div>
+                      <div class="text-sm text-gray-500">{{ review_info[1] }}</div>
+                    </div>
+                  </div>
+                  <div class="flex text-yellow-400">
+                    {% for i in (1..5) %}
+                      <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                      </svg>
+                    {% endfor %}
+                  </div>
                 </div>
-                <p class="text-gray-600">{{ review_parts[2] }}</p>
+                <p class="text-gray-700 leading-relaxed">{{ review_info[2] }}</p>
               </div>
             {% endfor %}
           </div>
         </div>
+      </div>
 
-        <!-- Shipping Tab -->
-        <div id="shipping" class="tab-content hidden">
-          <h3 class="text-2xl font-bold text-gray-900 mb-6">Livraison et retours</h3>
-          
+      <!-- Contenu Livraison -->
+      <div id="content-shipping" class="tab-content">
+        <div class="card-cloud rounded-3xl p-8 hover:shadow-lg transition-all duration-300">
+          <h3 class="text-3xl font-bold mb-6 gradient-text">Livraison et retours</h3>
           <div class="grid md:grid-cols-2 gap-8">
-            <div>
-              <h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                <span class="text-2xl mr-2">🚚</span>
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-200">
+              <h4 class="text-xl font-semibold mb-4 flex items-center text-green-800">
+                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                  <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 004.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v8a1 1 0 001 1h2a1 1 0 001-1V8a1 1 0 00-1-1h-2z"/>
+                </svg>
                 Livraison gratuite
               </h4>
-              <div class="space-y-3 text-gray-600">
-                <p>✓ <strong>France métropolitaine :</strong> 24-48h ouvrées</p>
-                <p>✓ <strong>Corse et DOM-TOM :</strong> 3-5 jours ouvrés</p>
-                <p>✓ <strong>Europe :</strong> 3-7 jours ouvrés (frais de port offerts dès 50€)</p>
-                <p>✓ <strong>Suivi en temps réel</strong> de votre commande</p>
-                <p>✓ <strong>Remise en main propre</strong> ou point relais</p>
-              </div>
+              <p class="text-gray-700 mb-4">Livraison gratuite en France métropolitaine pour toute commande.</p>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>Expédition sous 24-48h</li>
+                <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>Livraison en 2-4 jours ouvrés</li>
+                <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>Suivi de commande inclus</li>
+              </ul>
             </div>
-            
-            <div>
-              <h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                <span class="text-2xl mr-2">↩️</span>
-                Retours gratuits
+            <div class="bg-gradient-to-br from-blue-50 to-sky-50 p-6 rounded-2xl border border-blue-200">
+              <h4 class="text-xl font-semibold mb-4 flex items-center text-blue-800">
+                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                </svg>
+                Retours
               </h4>
-              <div class="space-y-3 text-gray-600">
-                <p>✓ <strong>30 jours</strong> pour changer d'avis</p>
-                <p>✓ <strong>Retour gratuit</strong> en France métropolitaine</p>
-                <p>✓ <strong>Remboursement intégral</strong> sous 5-7 jours</p>
-                <p>✓ <strong>Étiquette retour</strong> fournie dans le colis</p>
-                <p>✓ <strong>SAV dédié</strong> pour vous accompagner</p>
-              </div>
+              <p class="text-gray-700 mb-4">Vous avez 30 jours pour retourner votre produit si vous n'êtes pas satisfait.</p>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>Retour gratuit</li>
+                <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>Remboursement sous 5-7 jours</li>
+                <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>Produit à retourner dans son emballage d'origine</li>
+              </ul>
             </div>
-          </div>
-          
-          <div class="mt-8 p-6 bg-green-50 rounded-xl border border-green-200">
-            <h5 class="font-semibold text-green-800 mb-2">🎯 Engagement qualité</h5>
-            <p class="text-green-700">
-              Nous sommes tellement confiants en la qualité de notre Zen Ring que nous offrons 
-              une garantie satisfait ou remboursé de 30 jours, sans condition.
-            </p>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>
+
+<style>
+  .tab-button {
+    color: #6b7280;
+    background: transparent;
+  }
+  
+  .tab-button.active {
+    background: linear-gradient(135deg, #87CEEB, #DDA0DD);
+    color: white;
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+</style>
 
 <script>
   function showTab(tabName) {
-    // Hide all tab contents
+    // Masquer tous les contenus
     const contents = document.querySelectorAll('.tab-content');
-    contents.forEach(content => content.classList.add('hidden'));
+    contents.forEach(content => content.classList.remove('active'));
     
-    // Remove active class from all buttons
+    // Désactiver tous les boutons
     const buttons = document.querySelectorAll('.tab-button');
-    buttons.forEach(button => {
-      button.classList.remove('active', 'border-blue-500', 'text-blue-600', 'bg-blue-50');
-      button.classList.add('border-transparent', 'text-gray-500');
-    });
+    buttons.forEach(button => button.classList.remove('active'));
     
-    // Show selected tab content
-    document.getElementById(tabName).classList.remove('hidden');
+    // Afficher le contenu sélectionné
+    document.getElementById('content-' + tabName).classList.add('active');
     
-    // Add active class to clicked button
-    event.target.classList.add('active', 'border-blue-500', 'text-blue-600', 'bg-blue-50');
-    event.target.classList.remove('border-transparent', 'text-gray-500');
+    // Activer le bouton sélectionné
+    document.getElementById('tab-' + tabName).classList.add('active');
   }
 </script>
-
-{% schema %}
-{
-  "name": "Product Tabs",
-  "settings": []
-}
-{% endschema %}
