@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
-    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
-
-    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-    {%- endunless -%}
 
     <title>
       {{ page_title }}
@@ -29,91 +29,31 @@
 
     {% render 'meta-tags' %}
 
-    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
     {{ content_for_header }}
-
-    {%- liquid
-      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
-      assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
-      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
-    %}
-
-    {% style %}
-      {{ settings.type_body_font | font_face: font_display: 'swap' }}
-      {{ body_font_bold | font_face: font_display: 'swap' }}
-      {{ body_font_italic | font_face: font_display: 'swap' }}
-      {{ body_font_bold_italic | font_face: font_display: 'swap' }}
-      {{ settings.type_header_font | font_face: font_display: 'swap' }}
-
-      :root {
-        --color-primary: 56 189 248;
-        --color-primary-foreground: 255 255 255;
-        --color-secondary: 244 244 245;
-        --color-secondary-foreground: 39 39 42;
-        --color-muted: 244 244 245;
-        --color-muted-foreground: 113 113 122;
-        --color-accent: 244 244 245;
-        --color-accent-foreground: 39 39 42;
-        --color-destructive: 239 68 68;
-        --color-destructive-foreground: 248 250 252;
-        --color-border: 228 228 231;
-        --color-input: 228 228 231;
-        --color-ring: 59 130 246;
-        --color-background: 255 255 255;
-        --color-foreground: 39 39 42;
-        --color-card: 255 255 255;
-        --color-card-foreground: 39 39 42;
-        --color-popover: 255 255 255;
-        --color-popover-foreground: 39 39 42;
-      }
-
-      .dark {
-        --color-primary: 56 189 248;
-        --color-primary-foreground: 15 23 42;
-        --color-secondary: 39 39 42;
-        --color-secondary-foreground: 244 244 245;
-        --color-muted: 39 39 42;
-        --color-muted-foreground: 161 161 170;
-        --color-accent: 39 39 42;
-        --color-accent-foreground: 244 244 245;
-        --color-destructive: 127 29 29;
-        --color-destructive-foreground: 244 244 245;
-        --color-border: 39 39 42;
-        --color-input: 39 39 42;
-        --color-ring: 56 189 248;
-        --color-background: 15 23 42;
-        --color-foreground: 244 244 245;
-        --color-card: 15 23 42;
-        --color-card-foreground: 244 244 245;
-        --color-popover: 15 23 42;
-        --color-popover-foreground: 244 244 245;
-      }
-    {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
 
-    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    if (Shopify.designMode) {
+      document.documentElement.classList.add('shopify-design-mode');
+    }
+    </script>
   </head>
 
-  <body class="gradient-4">
+  <body class="zen-ring-theme">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 
-    {%- liquid
-      if settings.cart_type == 'drawer'
-        render 'cart-drawer'
-      endif
-    -%}
+    {%- if settings.cart_type == 'drawer' -%}
+      {%- render 'cart-drawer' -%}
+    {%- endif -%}
 
-    {% section 'announcement-bar' %}
-    {% section 'header' %}
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
-
-    {% section 'footer' %}
 
     <ul hidden>
       <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
@@ -139,6 +79,14 @@
         addToCart: `{{ 'products.product.add_to_cart' | t }}`,
         soldOut: `{{ 'products.product.sold_out' | t }}`,
         unavailable: `{{ 'products.product.unavailable' | t }}`,
+        unavailableWith: `{{ 'products.product.unavailable_with_option' | t: option: '[option]' }}`,
+      }
+
+      window.accessibilityStrings = {
+        imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+        shareSuccess: `{{ 'general.share.success_message' | t }}`,
+        pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+        playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
       }
     </script>
 
