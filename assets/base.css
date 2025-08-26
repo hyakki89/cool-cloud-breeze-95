@@ -1,4 +1,4 @@
-/* Zen Ring Theme - Base CSS avec design system original */
+/* Zen Ring Theme - CSS Principal avec design system Lovable */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -10,7 +10,7 @@
 }
 
 :root {
-  /* Design System Zen Ring - Couleurs personnalisées */
+  /* Design System Zen Ring - Couleurs du site Lovable original */
   --sky-blue: #87CEEB;
   --cloud-white: #F8FAFC;
   --lavender: #E6E6FA;
@@ -18,24 +18,17 @@
   --soft-gray: #F1F5F9;
   --mint-fresh: #F0FFFF;
   
-  /* Couleurs système Shopify adaptées */
-  --color-base-text: 34, 34, 34;
-  --color-shadow: 34, 34, 34;
+  /* Couleurs système */
+  --color-base-text: 55, 65, 81;
+  --color-shadow: 0, 0, 0;
   --color-base-background-1: 255, 255, 255;
   --color-base-background-2: 248, 250, 252;
-  --color-base-solid-button-labels: 255, 255, 255;
-  --color-base-outline-button-labels: 34, 34, 34;
-  --color-base-accent-1: 135, 206, 235;
-  --color-base-accent-2: 255, 182, 193;
   
   /* Fonts */
   --font-body-family: 'Inter', system-ui, -apple-system, sans-serif;
   --font-heading-family: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-body-weight: 400;
-  --font-body-weight-bold: 700;
-  --font-heading-weight: 700;
   
-  /* Gradients */
+  /* Gradients du site original */
   --gradient-cloud: linear-gradient(135deg, var(--sky-blue), var(--lavender), var(--pastel-pink));
   --gradient-hero-bg: linear-gradient(135deg, var(--cloud-white), var(--mint-fresh), var(--lavender));
   --gradient-text: linear-gradient(135deg, var(--sky-blue), #8B5CF6, var(--pastel-pink));
@@ -50,14 +43,15 @@ html {
 }
 
 /* Body avec le gradient original du site Lovable */
-.zen-ring-theme {
+body {
   margin: 0;
   font-family: var(--font-body-family);
-  font-weight: var(--font-body-weight);
+  font-weight: 400;
   line-height: 1.6;
   color: rgb(var(--color-base-text));
   background: linear-gradient(135deg, var(--cloud-white) 0%, var(--mint-fresh) 50%, var(--lavender) 100%);
   min-height: 100vh;
+  background-attachment: fixed;
 }
 
 /* Classes utilitaires du design system original */

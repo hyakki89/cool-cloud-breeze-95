@@ -2,64 +2,64 @@
   .benefits-section {
     padding: 5rem 1rem;
     position: relative;
-    overflow: hidden;
   }
   
-  .benefits-bg-clouds {
+  .benefits-bg {
     position: absolute;
     inset: 0;
+    pointer-events: none;
     overflow: hidden;
   }
   
   .benefits-cloud-1 {
     position: absolute;
-    top: 5rem;
-    left: 2.5rem;
-    width: 8rem;
-    height: 8rem;
-    background: rgba(147, 51, 234, 0.2);
+    top: 2.5rem;
+    right: 2.5rem;
+    width: 10rem;
+    height: 5rem;
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     filter: blur(2rem);
-    animation: float 3s ease-in-out infinite;
   }
   
   .benefits-cloud-2 {
     position: absolute;
     bottom: 5rem;
-    right: 2.5rem;
-    width: 10rem;
-    height: 10rem;
-    background: rgba(135, 206, 235, 0.15);
+    left: 2.5rem;
+    width: 15rem;
+    height: 7.5rem;
+    background: rgba(230, 230, 250, 0.1);
     border-radius: 50%;
-    filter: blur(2rem);
-    animation: float 3s ease-in-out infinite;
-    animation-delay: 1.5s;
+    filter: blur(3rem);
   }
 
   .benefit-card {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(12px);
-    border-radius: 1rem;
+    border-radius: 1.5rem;
     padding: 2rem;
-    box-shadow: 0 8px 32px rgba(135, 206, 235, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
+    height: 100%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(135, 206, 235, 0.1);
+    position: relative;
+    cursor: pointer;
   }
   
   .benefit-card:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(135, 206, 235, 0.15);
+    transform: scale(1.05);
   }
   
   .benefit-icon {
-    width: 4rem;
-    height: 4rem;
-    margin: 0 auto 1.5rem;
-    border-radius: 1rem;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    color: white;
+    margin-bottom: 1.5rem;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
@@ -67,16 +67,71 @@
     transform: scale(1.1);
   }
   
-  .benefit-icon-blue {
-    background: linear-gradient(135deg, #60A5FA, #3B82F6);
+  .icon-control { background: linear-gradient(135deg, #87CEEB, #E6E6FA); }
+  .icon-battery { background: linear-gradient(135deg, #E6E6FA, #FFB6C1); }
+  .icon-camera { background: linear-gradient(135deg, #FFB6C1, #87CEEB); }
+  
+  .benefit-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgb(55, 65, 81);
+    margin-bottom: 1rem;
   }
   
-  .benefit-icon-purple {
-    background: linear-gradient(135deg, #A78BFA, #8B5CF6);
+  .benefit-description {
+    color: rgb(107, 114, 128);
+    line-height: 1.6;
+  }
+
+  .additional-benefit {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(135, 206, 235, 0.1);
   }
   
-  .benefit-icon-pink {
-    background: linear-gradient(135deg, #F472B6, #EC4899);
+  .additional-benefit:hover {
+    transform: scale(1.05);
+  }
+  
+  .additional-benefit-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .additional-benefit-emoji {
+    font-size: 1.875rem;
+  }
+  
+  .additional-benefit-title {
+    font-weight: 600;
+    color: rgb(55, 65, 81);
+    margin-bottom: 0.5rem;
+  }
+  
+  .additional-benefit-description {
+    color: rgb(107, 114, 128);
+  }
+
+  .perfect-for-tag {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgb(55, 65, 81);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0.25rem;
+  }
+  
+  .perfect-for-tag:hover {
+    transform: scale(1.05);
   }
 
   @media (min-width: 768px) {
@@ -86,118 +141,103 @@
       gap: 2rem;
     }
     
-    .benefits-grid-2 {
+    .additional-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
+      gap: 2rem;
+      max-width: 64rem;
+      margin: 0 auto;
     }
   }
 </style>
 
 <section class="benefits-section">
-  <!-- Background decoration -->
-  <div class="benefits-bg-clouds">
+  <!-- Nuages décoratifs -->
+  <div class="benefits-bg">
     <div class="benefits-cloud-1"></div>
     <div class="benefits-cloud-2"></div>
   </div>
 
-  <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem; position: relative; z-index: 10;">
+  <div style="max-width: 1200px; margin: 0 auto; position: relative; z-index: 10; padding: 0 1rem;">
     <div style="text-align: center; margin-bottom: 4rem;">
-      <h2 style="font-size: clamp(2.5rem, 6vw, 3rem); font-weight: 700; color: rgb(17, 24, 39); margin-bottom: 1.5rem;">
-        Pourquoi choisir la <span class="gradient-text">Zen Ring</span> ?
+      <h2 style="font-size: clamp(2rem, 6vw, 3rem); font-weight: 700; color: rgb(31, 41, 55); margin-bottom: 1.5rem;">
+        Pourquoi tu vas <span class="gradient-text">l'adorer</span> ?
       </h2>
-      <p style="font-size: 1.25rem; color: rgb(75, 85, 99); max-width: 48rem; margin: 0 auto;">
-        Découvrez les fonctionnalités révolutionnaires qui font de notre bague connectée l'accessoire indispensable de votre quotidien moderne.
+      <p style="font-size: 1.25rem; color: rgb(107, 114, 128); max-width: 32rem; margin: 0 auto;">
+        Une bague connectée révolutionnaire qui transforme ton quotidien numérique
       </p>
     </div>
 
-    <!-- Main Benefits Grid -->
+    <!-- Bénéfices principaux avec icônes -->
     <div class="benefits-grid" style="margin-bottom: 4rem;">
-      <!-- Benefit 1 -->
+      <!-- Bénéfice 1 -->
       <div class="benefit-card">
-        <div class="benefit-icon benefit-icon-blue">
-          <svg style="width: 2rem; height: 2rem; color: white;" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+        <div class="benefit-icon icon-control">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17 2H7C5.9 2 5 2.9 5 4v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-5 18c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4.5-4H7.5V6h9v10z"/>
           </svg>
         </div>
-        <h3 style="font-size: 1.25rem; font-weight: 700; color: rgb(17, 24, 39); margin-bottom: 1rem;">Contrôle Gestuel Intuitif</h3>
-        <p style="color: rgb(75, 85, 99);">
-          Gérez vos appareils connectés d'un simple mouvement du doigt. Changez de musique, acceptez des appels, contrôlez l'éclairage.
-        </p>
+        <h3 class="benefit-title">Contrôle total</h3>
+        <p class="benefit-description">Swipe TikTok, Instagram, YouTube sans toucher ton écran</p>
       </div>
 
-      <!-- Benefit 2 -->
+      <!-- Bénéfice 2 -->
       <div class="benefit-card">
-        <div class="benefit-icon benefit-icon-purple">
-          <svg style="width: 2rem; height: 2rem; color: white;" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+        <div class="benefit-icon icon-battery">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/>
           </svg>
         </div>
-        <h3 style="font-size: 1.25rem; font-weight: 700; color: rgb(17, 24, 39); margin-bottom: 1rem;">Autonomie Exceptionnelle</h3>
-        <p style="color: rgb(75, 85, 99);">
-          Jusqu'à 7 jours d'utilisation avec une seule charge. Rechargement rapide en 30 minutes pour une journée complète.
-        </p>
+        <h3 class="benefit-title">72h d'autonomie</h3>
+        <p class="benefit-description">3 jours d'utilisation avec le boîtier de recharge inclus</p>
       </div>
 
-      <!-- Benefit 3 -->
+      <!-- Bénéfice 3 -->
       <div class="benefit-card">
-        <div class="benefit-icon benefit-icon-pink">
-          <svg style="width: 2rem; height: 2rem; color: white;" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/>
+        <div class="benefit-icon icon-camera">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 4h-3.17L15 2H9L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 13c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
           </svg>
         </div>
-        <h3 style="font-size: 1.25rem; font-weight: 700; color: rgb(17, 24, 39); margin-bottom: 1rem;">Design Élégant</h3>
-        <p style="color: rgb(75, 85, 99);">
-          Un design minimaliste et sophistiqué qui s'adapte à tous les styles. Résistante à l'eau et aux chocs du quotidien.
-        </p>
+        <h3 class="benefit-title">Selfies parfaits</h3>
+        <p class="benefit-description">Déclenche tes photos et vidéos à distance, fini les selfies ratés</p>
       </div>
     </div>
 
-    <!-- Additional Benefits -->
-    <div class="benefits-grid-2" style="margin-bottom: 4rem;">
-      <div style="display: flex; align-items: flex-start; gap: 1rem; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px); border-radius: 0.75rem; padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.2);">
-        <span style="font-size: 2rem;">🔒</span>
-        <div>
-          <h4 style="font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 0.5rem;">Sécurité Avancée</h4>
-          <p style="color: rgb(75, 85, 99);">Authentification biométrique et chiffrement des données pour une sécurité maximale.</p>
+    <!-- Bénéfices secondaires -->
+    <div class="additional-grid" style="margin-bottom: 5rem;">
+      <!-- Bénéfice additionnel 1 -->
+      <div class="additional-benefit">
+        <div class="additional-benefit-content">
+          <div class="additional-benefit-emoji">💍</div>
+          <div>
+            <h4 class="additional-benefit-title">Design minimaliste</h4>
+            <p class="additional-benefit-description">Discret et moderne, personne ne remarquera que tu la portes</p>
+          </div>
         </div>
       </div>
 
-      <div style="display: flex; align-items: flex-start; gap: 1rem; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px); border-radius: 0.75rem; padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.2);">
-        <span style="font-size: 2rem;">📱</span>
-        <div>
-          <h4 style="font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 0.5rem;">Compatibilité Universelle</h4>
-          <p style="color: rgb(75, 85, 99);">Compatible avec iOS, Android et tous vos appareils connectés préférés.</p>
-        </div>
-      </div>
-
-      <div style="display: flex; align-items: flex-start; gap: 1rem; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px); border-radius: 0.75rem; padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.2);">
-        <span style="font-size: 2rem;">💡</span>
-        <div>
-          <h4 style="font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 0.5rem;">IA Intégrée</h4>
-          <p style="color: rgb(75, 85, 99);">Apprentissage automatique pour s'adapter à vos habitudes et préférences.</p>
-        </div>
-      </div>
-
-      <div style="display: flex; align-items: flex-start; gap: 1rem; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(12px); border-radius: 0.75rem; padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.2);">
-        <span style="font-size: 2rem;">🌟</span>
-        <div>
-          <h4 style="font-weight: 600; color: rgb(17, 24, 39); margin-bottom: 0.5rem;">Mises à Jour Régulières</h4>
-          <p style="color: rgb(75, 85, 99);">Nouvelles fonctionnalités ajoutées régulièrement via des mises à jour OTA.</p>
+      <!-- Bénéfice additionnel 2 -->
+      <div class="additional-benefit">
+        <div class="additional-benefit-content">
+          <div class="additional-benefit-emoji">📱</div>
+          <div>
+            <h4 class="additional-benefit-title">Compatible iOS & Android</h4>
+            <p class="additional-benefit-description">Fonctionne avec tous les smartphones modernes</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Perfect For Section -->
+    <!-- Section "Parfait pour" -->
     <div style="text-align: center;">
-      <h3 style="font-size: 1.5rem; font-weight: 700; color: rgb(17, 24, 39); margin-bottom: 2rem;">Parfait pour :</h3>
-      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem;">
-        {% assign use_cases = "Les professionnels actifs,Les tech enthusiasts,Les amateurs de fitness,Les créateurs de contenu,Les gamers,Les parents occupés" | split: "," %}
-        {% for use_case in use_cases %}
-          <span style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1)); color: rgb(31, 41, 55); padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; transition: all 0.3s; cursor: default;" onmouseover="this.style.background='linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2))'" onmouseout="this.style.background='linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1))'">
-            {{ use_case }}
-          </span>
-        {% endfor %}
+      <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; color: rgb(55, 65, 81);">Parfait pour :</h3>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+        <span class="perfect-for-tag">📱 Réseaux sociaux</span>
+        <span class="perfect-for-tag">🎶 Contrôle musique</span>
+        <span class="perfect-for-tag">📸 Selfies & photos</span>
+        <span class="perfect-for-tag">📖 Lecture e-books</span>
+        <span class="perfect-for-tag">🎮 Gaming mobile</span>
       </div>
     </div>
   </div>
