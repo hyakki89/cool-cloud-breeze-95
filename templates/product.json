@@ -4,23 +4,13 @@
       "type": "main-product",
       "settings": {}
     },
-    "benefits-section": {
-      "type": "benefits-section",
-      "settings": {}
-    },
     "product-tabs": {
       "type": "product-tabs",
-      "settings": {}
-    },
-    "testimonials-section": {
-      "type": "testimonials-section",
       "settings": {}
     }
   },
   "order": [
     "main",
-    "benefits-section", 
-    "product-tabs",
-    "testimonials-section"
+    "product-tabs"
   ]
 }

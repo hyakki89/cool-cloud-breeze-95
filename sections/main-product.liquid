@@ -2,148 +2,152 @@
 {% assign product_form_id = 'ProductForm-' | append: section.id %}
 
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+  {/* Product Section */}
   <div class="container mx-auto px-4 py-8">
     <div class="grid lg:grid-cols-2 gap-12">
       
-      <!-- Colonne gauche : Galerie (fidèle au design) -->
+      {/* Product Images - Left Column */}
       <div class="space-y-4">
         <div class="relative bg-white rounded-2xl p-4 shadow-lg">
-          {% assign first_media = current_variant.featured_media | default: product.featured_media | default: product.media.first %}
-          {% if first_media %}
+          {% assign featured_media = current_variant.featured_media | default: product.featured_media | default: product.media.first %}
+          {% if featured_media %}
             <img
               id="main-product-image"
-              src="{{ first_media | image_url: width: 900 }}"
+              src="{{ featured_media | image_url: width: 800 }}"
               alt="{{ product.title | escape }}"
               class="w-full h-96 object-cover rounded-xl"
             />
           {% endif %}
-
           <div class="absolute top-6 left-6 space-y-2">
-            <span class="bg-green-500 text-white px-3 py-1 rounded font-semibold text-sm">✨ Nouveau</span>
+            <span class="bg-green-500 text-white px-3 py-1 rounded font-semibold text-sm">Nouveau</span>
             {% if current_variant.compare_at_price > current_variant.price %}
               {% assign discount_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round %}
-              <span class="bg-red-500 text-white px-3 py-1 rounded font-semibold text-sm animate-pulse">🔥 -{{ discount_percent }}%</span>
+              <span class="bg-red-500 text-white px-3 py-1 rounded font-semibold text-sm">-{{ discount_percent }}%</span>
             {% endif %}
-            <span class="bg-orange-500 text-white px-3 py-1 rounded font-semibold text-sm">⚡ Stock limité</span>
           </div>
         </div>
-
-        <!-- Thumbnails / Navigation -->
         <div class="grid grid-cols-4 gap-2">
-          {% for media in product.media %}
+          {% for media in product.media limit: 4 %}
             {% if media.media_type == 'image' %}
               <button
                 type="button"
-                onclick="changeMainImage('{{ media | image_url: width: 900 }}', {{ forloop.index0 }})"
+                onclick="changeMainImage('{{ media | image_url: width: 800 }}', {{ forloop.index0 }})"
                 id="thumb-{{ forloop.index0 }}"
-                class="border-2 rounded-lg overflow-hidden transition-all border-gray-200 hover:border-blue-400 hover:scale-105"
-                aria-label="Aperçu {{ forloop.index }}"
+                class="border-2 rounded-lg overflow-hidden transition-all border-gray-200"
               >
-                <img src="{{ media | image_url: width: 200 }}" alt="{{ product.title | escape }} - media {{ forloop.index }}" class="w-full h-20 object-cover" />
+                <img src="{{ media | image_url: width: 200 }}" alt="Vue {{ forloop.index }}" class="w-full h-20 object-cover" />
               </button>
-            {% elsif media.media_type == 'video' %}
-              <a href="{{ media | media_url }}" target="_blank" id="thumb-{{ forloop.index0 }}" class="border-2 rounded-lg overflow-hidden transition-all border-gray-200 hover:border-blue-400 hover:scale-105 flex items-center justify-center h-20 text-sm font-medium">
-                🎥 Vidéo
-              </a>
             {% endif %}
           {% endfor %}
         </div>
       </div>
 
-      <!-- Colonne droite : Infos produit -->
+      {/* Product Info - Right Column */}
       <div class="space-y-6">
-        <!-- Badges commerciaux -->
+        {/* Commercial badges */}
         <div class="flex gap-2 mb-4">
-          <span class="bg-green-500 text-white font-semibold px-3 py-1 rounded">✨ Nouveau</span>
+          <span class="bg-green-500 text-white font-semibold px-3 py-1 rounded">
+            ✨ Nouveau
+          </span>
           {% if current_variant.compare_at_price > current_variant.price %}
             {% assign discount_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round %}
-            <span class="bg-red-500 text-white font-semibold px-3 py-1 rounded animate-pulse">🔥 -{{ discount_percent }}%</span>
+            <span class="bg-red-500 text-white font-semibold px-3 py-1 animate-pulse rounded">
+              🔥 -{{ discount_percent }}%
+            </span>
           {% endif %}
-          <span class="bg-orange-500 text-white font-semibold px-3 py-1 rounded">⚡ Stock limité</span>
+          <span class="bg-orange-500 text-white font-semibold px-3 py-1 rounded">
+            ⚡ Stock limité
+          </span>
         </div>
 
-        <!-- Titre, vendor, collections, avis -->
         <div>
-          <div class="flex items-center justify-between">
-            <h1 class="text-3xl font-bold bg-gradient-to-r from-gray-900 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">{{ product.title }}</h1>
-          </div>
-          <div class="text-sm text-gray-600 mb-2">
-            {% if product.vendor != blank %}<span class="font-medium">Marque :</span> {{ product.vendor }}{% endif %}
-            {% if product.collections.size > 0 %}
-              <span class="mx-2">•</span>
-              <span class="font-medium">Collections :</span>
-              {% for c in product.collections limit: 2 %}
-                <a href="{{ c.url }}" class="underline hover:no-underline">{{ c.title }}</a>{% unless forloop.last %}, {% endunless %}
-              {% endfor %}
-            {% endif %}
-          </div>
-          <div class="flex items-center flex-wrap gap-3 mb-4">
+          <h1 class="text-3xl font-bold bg-gradient-to-r from-gray-900 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+            {{ product.title }}
+          </h1>
+          <div class="flex items-center space-x-3 mb-4">
             <div class="flex text-yellow-400">
               {% for i in (1..5) %}
-                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
               {% endfor %}
             </div>
             <span class="text-gray-600 font-medium">(4.9/5 - 127 avis)</span>
             <div class="flex items-center text-green-600 text-sm font-semibold">
-              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM9 16a3 3 0 100-6 3 3 0 000 6z"/><path fill-rule="evenodd" d="M3 6a3 3 0 013-3h.01a1 1 0 010 2H6a1 1 0 00-1 1v.01a1 1 0 01-2 0V6z" clip-rule="evenodd"/></svg>
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
               +2,000 clients satisfaits
             </div>
           </div>
         </div>
 
-        <!-- Bloc prix -->
+        {/* Price Card */}
         <div class="bg-gradient-to-br from-white via-blue-50 to-purple-50 backdrop-blur-sm border-2 border-blue-200 shadow-xl rounded-2xl p-6">
           <div class="text-center mb-4">
             <div class="flex items-center justify-center space-x-3 mb-2">
-              <span id="compare_wrap" class="text-2xl text-gray-400 line-through {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}">
-                <span id="compare_at_price">{{ current_variant.compare_at_price | money }}</span>
-              </span>
+              {% if current_variant.compare_at_price > current_variant.price %}
+                <span class="text-2xl text-gray-400 line-through">{{ current_variant.compare_at_price | money }}</span>
+              {% endif %}
               <span id="price" class="text-5xl font-black bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent">{{ current_variant.price | money }}</span>
             </div>
             {% if current_variant.compare_at_price > current_variant.price %}
               {% assign savings = current_variant.compare_at_price | minus: current_variant.price %}
               {% assign savings_percent = savings | times: 100 | divided_by: current_variant.compare_at_price | round %}
-              <div id="savings-wrap" class="bg-green-100 rounded-full px-4 py-2 mb-3">
-                <p id="savings" class="text-green-700 font-bold text-lg">💰 Économisez {{ savings | money }} ({{ savings_percent }}%)</p>
+              <div class="bg-green-100 rounded-full px-4 py-2 mb-3">
+                <p class="text-green-700 font-bold text-lg">💰 Économisez {{ savings | money }} ({{ savings_percent }}%)</p>
               </div>
-            {% else %}
-              <div id="savings-wrap" class="hidden bg-green-100 rounded-full px-4 py-2 mb-3"><p id="savings"></p></div>
             {% endif %}
           </div>
           
-          <!-- Garanties courtes -->
           <div class="grid grid-cols-2 gap-4 text-sm">
             <div class="flex items-center text-blue-600 font-semibold">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/><path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 004.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v8a1 1 0 001 1h2a1 1 0 001-1V8a1 1 0 00-1-1h-2z"/></svg>
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+              </svg>
               Livraison gratuite
             </div>
             <div class="flex items-center text-purple-600 font-semibold">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+              </svg>
               Expédition 24h
             </div>
             <div class="flex items-center text-green-600 font-semibold">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
               Garantie 30j
             </div>
             <div class="flex items-center text-orange-600 font-semibold">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+              </svg>
               Paiement sécurisé
             </div>
           </div>
         </div>
 
-        <!-- Description dynamique -->
+        {/* Description */}
         <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-200">
           {% if product.description != blank %}
-            <div class="prose prose-sm lg:prose-base max-w-none text-gray-800">{{ product.description }}</div>
+            <div class="text-lg text-gray-800 font-medium leading-relaxed">
+              {{ product.description }}
+            </div>
           {% else %}
             <p class="text-lg text-gray-800 font-medium leading-relaxed">
-              🚀 <strong>La bague connectée qui révolutionne ton quotidien !</strong> Contrôle tes réseaux sociaux, ta musique et tes photos d'un simple geste.
+              🚀 <strong>La bague connectée qui révolutionne ton quotidien !</strong> Contrôle tes réseaux sociaux, ta musique et tes photos d'un simple geste. 
+              Design minimaliste et discret pour une technologie innovante à portée de main.
             </p>
           {% endif %}
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">📱 Compatible iOS/Android</span>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">🎵 Contrôle musical</span>
+            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">📸 Selfies à distance</span>
+          </div>
         </div>
 
-        <!-- Formulaire produit -->
+        {/* Product Form */}
         {% form 'product', product, id: product_form_id %}
           <input type="hidden" name="id" id="selected-variant-id" value="{{ current_variant.id }}">
           <div class="space-y-4">
@@ -156,7 +160,7 @@
                       {% for value in option.values %}
                         <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="sr-only" {% if option.selected_value == value %}checked{% endif %}>
                         <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                               class="w-12 h-12 rounded-full border-4 transition-all cursor-pointer {% if value contains 'white' or value contains 'Blanc' %}bg-white border-gray-300{% elsif value contains 'black' or value contains 'Noir' %}bg-gray-900{% elsif value contains 'rose' or value contains 'Rose' %}bg-pink-400{% elsif value contains 'blue' or value contains 'Bleu' %}bg-blue-400{% else %}bg-gray-300 border-gray-400{% endif %} hover:scale-110">
+                               class="w-12 h-12 rounded-full border-4 transition-all cursor-pointer {% if value contains 'white' or value contains 'Blanc' %}bg-white border-gray-300{% elsif value contains 'black' or value contains 'Noir' %}bg-gray-900{% elsif value contains 'rose' or value contains 'Rose' %}bg-pink-400{% elsif value contains 'blue' or value contains 'Bleu' %}bg-blue-400{% else %}bg-gray-300 border-gray-400{% endif %}">
                         </label>
                       {% endfor %}
                     </div>
@@ -171,45 +175,77 @@
               {% endfor %}
             {% endunless %}
 
-            <!-- Quantité -->
             <div>
               <label class="block font-semibold mb-2">Quantité :</label>
               <div class="flex items-center space-x-3">
-                <button type="button" onclick="changeQuantity(-1)" class="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 font-bold text-xl transition-all">-</button>
+                <button type="button" onclick="changeQuantity(-1)" class="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 font-bold transition-all">
+                  -
+                </button>
                 <span id="quantity-display" class="w-12 text-center font-semibold">1</span>
                 <input type="hidden" name="quantity" id="quantity" value="1">
-                <button type="button" onclick="changeQuantity(1)" class="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 font-bold text-xl transition-all">+</button>
+                <button type="button" onclick="changeQuantity(1)" class="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 font-bold transition-all">
+                  +
+                </button>
               </div>
             </div>
+          </div>
 
-            <!-- CTA -->
-            <button type="submit" name="add" class="w-full bg-gradient-to-r from-blue-400 to-pink-400 hover:from-pink-400 hover:to-blue-400 text-white font-bold py-4 rounded-2xl text-lg shadow-2xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group">
-              <span class="relative z-10 flex items-center justify-center">⚡ Acheter maintenant - <span class="ml-1" id="cta-price">{{ current_variant.price | money }}</span> ⚡</span>
+          {/* Buy Now Section */}
+          <div class="space-y-4">
+            <div class="bg-red-50 border border-red-200 rounded-xl p-4 text-center">
+              <div class="flex items-center justify-center text-red-600 font-bold mb-2">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                </svg>
+                ⏰ Offre limitée dans le temps !
+              </div>
+              <p class="text-red-700 text-sm">Plus que 12 unités en stock - Commandez maintenant !</p>
+            </div>
+            
+            <button 
+              type="submit" 
+              name="add"
+              class="w-full bg-gradient-to-r from-blue-400 to-pink-400 hover:from-pink-400 hover:to-blue-400 text-white font-bold py-4 rounded-2xl text-lg shadow-2xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
+            >
+              <span class="relative z-10 flex items-center justify-center">
+                ⚡ Acheter maintenant - <span id="cta-price">{{ current_variant.price | money }}</span> ⚡
+              </span>
               <div class="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
             </button>
-
-            <p class="text-center text-sm text-gray-600">✅ Paiement sécurisé • 📦 Livraison rapide • 🔄 Retour gratuit 30j</p>
+            
+            <p class="text-center text-sm text-gray-600">
+              ✅ Paiement sécurisé • 📦 Livraison rapide • 🔄 Retour gratuit 30j
+            </p>
           </div>
         {% endform %}
 
-        <!-- Garanties premium -->
+        {/* Premium Guarantees */}
         <div class="bg-gradient-to-br from-green-50 to-blue-50 backdrop-blur-sm border-2 border-green-200 rounded-2xl p-6">
           <h3 class="font-bold text-gray-800 text-center mb-4">🛡️ VOS GARANTIES PREMIUM</h3>
           <div class="space-y-4">
             <div class="flex items-center space-x-3 bg-white/70 rounded-lg p-3 border border-gray-200">
-              <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
               <span class="text-sm font-semibold text-gray-800">Garantie 30 jours satisfait ou remboursé</span>
             </div>
             <div class="flex items-center space-x-3 bg-white/70 rounded-lg p-3 border border-gray-200">
-              <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+              <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+              </svg>
               <span class="text-sm font-semibold text-gray-800">Paiement 100% sécurisé SSL</span>
             </div>
             <div class="flex items-center space-x-3 bg-white/70 rounded-lg p-3 border border-gray-200">
-              <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20"><path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/><path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 004.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v8a1 1 0 001 1h2a1 1 0 001-1V8a1 1 0 00-1-1h-2z"/></svg>
+              <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 004.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v8a1 1 0 001 1h2a1 1 0 001-1V8a1 1 0 00-1-1h-2z"/>
+              </svg>
               <span class="text-sm font-semibold text-gray-800">Livraison gratuite en France métropolitaine</span>
             </div>
             <div class="flex items-center space-x-3 bg-white/70 rounded-lg p-3 border border-gray-200">
-              <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/></svg>
+              <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+              </svg>
               <span class="text-sm font-semibold text-gray-800">Stock limité - Plus que 12 unités !</span>
             </div>
           </div>
@@ -222,18 +258,20 @@
 
 <script>
   function changeMainImage(src, index) {
-    const main = document.getElementById('main-product-image');
-    if (main) main.src = src;
-
-    const thumbs = document.querySelectorAll('[id^="thumb-"]');
-    thumbs.forEach((thumb) => {
+    const mainImage = document.getElementById('main-product-image');
+    if (mainImage) mainImage.src = src;
+    
+    // Update active thumbnail
+    const thumbnails = document.querySelectorAll('[id^="thumb-"]');
+    thumbnails.forEach(thumb => {
       thumb.classList.remove('border-blue-400', 'scale-105');
       thumb.classList.add('border-gray-200');
     });
-    const active = document.getElementById('thumb-' + index);
-    if (active) {
-      active.classList.remove('border-gray-200');
-      active.classList.add('border-blue-400', 'scale-105');
+    
+    const activeThumb = document.getElementById('thumb-' + index);
+    if (activeThumb) {
+      activeThumb.classList.remove('border-gray-200');
+      activeThumb.classList.add('border-blue-400', 'scale-105');
     }
   }
 
@@ -241,94 +279,48 @@
     const quantityInput = document.getElementById('quantity');
     const quantityDisplay = document.getElementById('quantity-display');
     if (!quantityInput || !quantityDisplay) return;
+    
     const currentValue = parseInt(quantityInput.value || '1');
     const newValue = Math.max(1, Math.min(10, currentValue + change));
     quantityInput.value = newValue;
     quantityDisplay.textContent = newValue;
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
-    // Active first thumbnail
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    // Set first thumbnail as active
     const firstThumb = document.getElementById('thumb-0');
     if (firstThumb) {
       firstThumb.classList.remove('border-gray-200');
       firstThumb.classList.add('border-blue-400', 'scale-105');
     }
 
-    // Variant handling
+    // Handle variant changes
     const variants = {{ product.variants | json }};
-
-    function getSelectedOptions() {
-      const selected = [];
+    
+    function updateVariant() {
+      const selectedOptions = [];
       {% for option in product.options_with_values %}
-        var radio = document.querySelector('[name="options[{{ option.name | escape }}]"]:checked');
-        var select = document.querySelector('select[name="options[{{ option.name | escape }}]"]');
-        selected.push(radio ? radio.value : (select ? select.value : null));
+        const option{{ forloop.index }} = document.querySelector('[name="options[{{ option.name | escape }}]"]:checked') || document.querySelector('select[name="options[{{ option.name | escape }}]"]');
+        selectedOptions.push(option{{ forloop.index }} ? option{{ forloop.index }}.value : null);
       {% endfor %}
-      return selected;
-    }
-
-    function findVariantByOptions() {
-      const sel = getSelectedOptions();
-      return variants.find(function (v) {
-        return (
-          v.option1 == (sel[0] || v.option1) &&
-          (sel.length < 2 || v.option2 == sel[1]) &&
-          (sel.length < 3 || v.option3 == sel[2])
-        );
+      
+      const selectedVariant = variants.find(variant => {
+        return selectedOptions.every((option, index) => {
+          return !option || variant['option' + (index + 1)] === option;
+        });
       });
-    }
-
-    function formatMoney(cents) {
-      try { return Shopify.formatMoney(cents, "{{ shop.money_format | replace: '"', '\\"' }}"); }
-      catch (e) { return (cents / 100).toLocaleString('fr-FR', { style: 'currency', currency: '{{ cart.currency.iso_code }}' }); }
-    }
-
-    function updateUI(variant) {
-      if (!variant) return;
-      var idInput = document.getElementById('selected-variant-id');
-      if (idInput) idInput.value = variant.id;
-
-      var priceEl = document.getElementById('price');
-      var compareWrap = document.getElementById('compare_wrap');
-      var compareEl = document.getElementById('compare_at_price');
-      var ctaPrice = document.getElementById('cta-price');
-      var savingsWrap = document.getElementById('savings-wrap');
-      var savingsText = document.getElementById('savings');
-
-      if (priceEl) priceEl.textContent = formatMoney(variant.price);
-      if (ctaPrice) ctaPrice.textContent = formatMoney(variant.price);
-      if (variant.compare_at_price && variant.compare_at_price > variant.price) {
-        if (compareEl) compareEl.textContent = formatMoney(variant.compare_at_price);
-        if (compareWrap) compareWrap.classList.remove('hidden');
-        if (savingsWrap && savingsText) {
-          var savings = variant.compare_at_price - variant.price;
-          var pct = Math.round((savings * 100) / variant.compare_at_price);
-          savingsText.textContent = '💰 Économisez ' + formatMoney(savings) + ' (' + pct + '%)';
-          savingsWrap.classList.remove('hidden');
-        }
-      } else {
-        if (compareWrap) compareWrap.classList.add('hidden');
-        if (savingsWrap) savingsWrap.classList.add('hidden');
+      
+      if (selectedVariant) {
+        document.getElementById('selected-variant-id').value = selectedVariant.id;
+        document.getElementById('price').textContent = Shopify.formatMoney(selectedVariant.price, "{{ shop.money_format | replace: '"', '\\"' }}");
+        document.getElementById('cta-price').textContent = Shopify.formatMoney(selectedVariant.price, "{{ shop.money_format | replace: '"', '\\"' }}");
       }
-
-      if (variant.featured_media && variant.featured_media.preview_image && document.getElementById('main-product-image')) {
-        var src = variant.featured_media.preview_image.src;
-        document.getElementById('main-product-image').src = src + (src.indexOf('?') === -1 ? '?' : '&') + 'width=900';
-      }
-
-      var atc = document.querySelector('[name="add"]');
-      if (atc) atc.disabled = !variant.available;
     }
 
-    // Attach listeners
-    document.querySelectorAll('[name^="options["]').forEach(function (el) {
-      el.addEventListener('change', function () {
-        updateUI(findVariantByOptions());
-      });
+    // Add event listeners to all variant selectors
+    document.querySelectorAll('[name^="options["]').forEach(input => {
+      input.addEventListener('change', updateVariant);
     });
-
-    // Init
-    updateUI(findVariantByOptions());
   });
 </script>
