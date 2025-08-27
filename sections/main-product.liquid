@@ -1,173 +1,471 @@
 {% assign current_variant = product.selected_or_first_available_variant %}
 {% assign product_form_id = 'ProductForm-' | append: section.id %}
 
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
-  <!-- Product Section -->
-  <div class="container mx-auto px-4 py-8">
-    <div class="grid lg:grid-cols-2 gap-12">
+<style>
+  .product-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, rgb(248, 250, 252) 0%, rgb(219, 234, 254) 50%, rgb(243, 232, 255) 100%);
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  @media (min-width: 1024px) {
+    .product-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .image-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .main-image-container {
+    position: relative;
+    background: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  .main-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+  }
+  .badges-overlay {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: white;
+  }
+  .badge-green { background-color: rgb(34, 197, 94); }
+  .badge-red { background-color: rgb(239, 68, 68); animation: pulse 2s infinite; }
+  .thumbnails {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+  .thumbnail {
+    border: 2px solid rgb(229, 231, 235);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .thumbnail:hover, .thumbnail.active {
+    border-color: rgb(96, 165, 250);
+    transform: scale(1.05);
+  }
+  .thumbnail img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+  }
+  .info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .commercial-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    background: linear-gradient(to right, rgb(17, 24, 39), rgb(37, 99, 235), rgb(147, 51, 234));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+  }
+  .reviews {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .stars {
+    display: flex;
+    color: rgb(251, 191, 36);
+  }
+  .price-card {
+    background: linear-gradient(135deg, white 0%, rgb(219, 234, 254) 50%, rgb(243, 232, 255) 100%);
+    border: 2px solid rgb(147, 197, 253);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+  .price-display {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .old-price {
+    font-size: 1.5rem;
+    color: rgb(156, 163, 175);
+    text-decoration: line-through;
+  }
+  .current-price {
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(to right, rgb(96, 165, 250), rgb(168, 85, 247), rgb(244, 114, 182));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-left: 0.75rem;
+  }
+  .savings {
+    background: rgb(220, 252, 231);
+    color: rgb(21, 128, 61);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
+    display: inline-block;
+  }
+  .guarantees-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    font-size: 0.875rem;
+  }
+  .guarantee-item {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+  }
+  .guarantee-item svg {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+  }
+  .description-card {
+    background: linear-gradient(to right, rgb(239, 246, 255), rgb(243, 232, 255));
+    border: 1px solid rgb(147, 197, 253);
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+  .description-text {
+    font-size: 1.125rem;
+    color: rgb(31, 41, 55);
+    font-weight: 500;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+  .feature-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .feature-tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .tag-blue { background: rgb(219, 234, 254); color: rgb(30, 64, 175); }
+  .tag-purple { background: rgb(233, 213, 255); color: rgb(109, 40, 217); }
+  .tag-green { background: rgb(220, 252, 231); color: rgb(21, 128, 61); }
+  .form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .form-label {
+    font-weight: 600;
+  }
+  .color-options {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .color-option {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 4px solid transparent;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .color-option:hover {
+    transform: scale(1.1);
+  }
+  .color-option.active {
+    border-color: rgb(96, 165, 250);
+    transform: scale(1.1);
+  }
+  .color-white { background: white; border-color: rgb(209, 213, 219) !important; }
+  .color-black { background: rgb(17, 24, 39); }
+  .color-rose { background: rgb(244, 114, 182); }
+  .color-blue { background: rgb(96, 165, 250); }
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .quantity-btn {
+    width: 3rem;
+    height: 3rem;
+    border: 2px solid rgb(209, 213, 219);
+    border-radius: 0.5rem;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .quantity-btn:hover {
+    background: rgb(249, 250, 251);
+  }
+  .quantity-display {
+    width: 3rem;
+    text-align: center;
+    font-weight: 600;
+  }
+  .urgency-alert {
+    background: rgb(254, 242, 242);
+    border: 1px solid rgb(252, 165, 165);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    text-align: center;
+  }
+  .urgency-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(220, 38, 38);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .urgency-text {
+    color: rgb(185, 28, 28);
+    font-size: 0.875rem;
+  }
+  .buy-button {
+    width: 100%;
+    background: linear-gradient(to right, rgb(96, 165, 250), rgb(244, 114, 182));
+    color: white;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: 1.125rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .buy-button:hover {
+    background: linear-gradient(to right, rgb(244, 114, 182), rgb(96, 165, 250));
+    transform: scale(1.05);
+  }
+  .security-text {
+    text-align: center;
+    font-size: 0.875rem;
+    color: rgb(107, 114, 128);
+    margin-top: 0.5rem;
+  }
+  .premium-guarantees {
+    background: linear-gradient(135deg, rgb(240, 253, 244), rgb(219, 234, 254));
+    border: 2px solid rgb(34, 197, 94);
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+  .premium-title {
+    font-weight: 700;
+    color: rgb(31, 41, 55);
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .premium-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .premium-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgb(229, 231, 235);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+  }
+  .premium-item svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .premium-item span {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: rgb(31, 41, 55);
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+</style>
+
+<div class="product-page">
+  <div class="container">
+    <div class="product-grid">
       
-      <!-- Product Images - Left Column -->
-      <div class="space-y-4">
-        <div class="relative bg-white rounded-2xl p-4 shadow-lg">
+      <!-- Image Section -->
+      <div class="image-section">
+        <div class="main-image-container">
           {% assign featured_media = current_variant.featured_media | default: product.featured_media | default: product.media.first %}
           {% if featured_media %}
             <img
               id="main-product-image"
               src="{{ featured_media | image_url: width: 800 }}"
               alt="{{ product.title | escape }}"
-              class="w-full h-96 object-cover rounded-xl"
+              class="main-image"
             />
           {% endif %}
-          <div class="absolute top-6 left-6 space-y-2">
-            <span class="bg-green-500 text-white px-3 py-1 rounded font-semibold text-sm">Nouveau</span>
+          <div class="badges-overlay">
+            <span class="badge badge-green">✨ Nouveau</span>
             {% if current_variant.compare_at_price > current_variant.price %}
               {% assign discount_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round %}
-              <span class="bg-red-500 text-white px-3 py-1 rounded font-semibold text-sm">-{{ discount_percent }}%</span>
+              <span class="badge badge-red">🔥 -{{ discount_percent }}%</span>
             {% endif %}
           </div>
         </div>
-        <div class="grid grid-cols-4 gap-2">
+        
+        <div class="thumbnails">
           {% for media in product.media limit: 4 %}
             {% if media.media_type == 'image' %}
               <button
                 type="button"
                 onclick="changeMainImage('{{ media | image_url: width: 800 }}', {{ forloop.index0 }})"
                 id="thumb-{{ forloop.index0 }}"
-                class="border-2 rounded-lg overflow-hidden transition-all border-gray-200"
+                class="thumbnail"
               >
-                <img src="{{ media | image_url: width: 200 }}" alt="Vue {{ forloop.index }}" class="w-full h-20 object-cover" />
+                <img src="{{ media | image_url: width: 200 }}" alt="Vue {{ forloop.index }}" />
               </button>
             {% endif %}
           {% endfor %}
         </div>
       </div>
 
-      <!-- Product Info - Right Column -->
-      <div class="space-y-6">
+      <!-- Info Section -->
+      <div class="info-section">
         <!-- Commercial badges -->
-        <div class="flex gap-2 mb-4">
-          <span class="bg-green-500 text-white font-semibold px-3 py-1 rounded">
-            ✨ Nouveau
-          </span>
+        <div class="commercial-badges">
+          <span class="badge badge-green">✨ Nouveau</span>
           {% if current_variant.compare_at_price > current_variant.price %}
             {% assign discount_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round %}
-            <span class="bg-red-500 text-white font-semibold px-3 py-1 animate-pulse rounded">
-              🔥 -{{ discount_percent }}%
-            </span>
+            <span class="badge badge-red">🔥 -{{ discount_percent }}%</span>
           {% endif %}
-          <span class="bg-orange-500 text-white font-semibold px-3 py-1 rounded">
-            ⚡ Stock limité
-          </span>
+          <span class="badge" style="background-color: rgb(249, 115, 22); color: white;">⚡ Stock limité</span>
         </div>
 
         <div>
-          <h1 class="text-3xl font-bold bg-gradient-to-r from-gray-900 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-            {{ product.title }}
-          </h1>
-          <div class="flex items-center space-x-3 mb-4">
-            <div class="flex text-yellow-400">
-              {% for i in (1..5) %}
-                <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                </svg>
-              {% endfor %}
+          <h1 class="title">{{ product.title }}</h1>
+          <div class="reviews">
+            <div class="stars">
+              ★★★★★
             </div>
-            <span class="text-gray-600 font-medium">(4.9/5 - 127 avis)</span>
-            <div class="flex items-center text-green-600 text-sm font-semibold">
-              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM9 16a3 3 0 100-6 3 3 0 000 6z"/>
-                <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h.01a1 1 0 010 2H6a1 1 0 00-1 1v.01a1 1 0 01-2 0V6z" clip-rule="evenodd"/>
-              </svg>
-              +2,000 clients satisfaits
+            <span style="color: rgb(107, 114, 128); font-weight: 500;">(4.9/5 - 127 avis)</span>
+            <div style="display: flex; align-items: center; color: rgb(34, 197, 94); font-size: 0.875rem; font-weight: 600;">
+              ✓ +2,000 clients satisfaits
             </div>
           </div>
         </div>
 
         <!-- Price Card -->
-        <div class="bg-gradient-to-br from-white via-blue-50 to-purple-50 backdrop-blur-sm border-2 border-blue-200 shadow-xl rounded-2xl p-6">
-          <div class="text-center mb-4">
-            <div class="flex items-center justify-center space-x-3 mb-2">
+        <div class="price-card">
+          <div class="price-display">
+            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
               {% if current_variant.compare_at_price > current_variant.price %}
-                <span class="text-2xl text-gray-400 line-through">{{ current_variant.compare_at_price | money }}</span>
+                <span class="old-price">{{ current_variant.compare_at_price | money }}</span>
               {% endif %}
-              <span id="price" class="text-5xl font-black bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent">{{ current_variant.price | money }}</span>
+              <span id="price" class="current-price">{{ current_variant.price | money }}</span>
             </div>
             {% if current_variant.compare_at_price > current_variant.price %}
               {% assign savings = current_variant.compare_at_price | minus: current_variant.price %}
               {% assign savings_percent = savings | times: 100 | divided_by: current_variant.compare_at_price | round %}
-              <div class="bg-green-100 rounded-full px-4 py-2 mb-3">
-                <p class="text-green-700 font-bold text-lg">💰 Économisez {{ savings | money }} ({{ savings_percent }}%)</p>
-              </div>
+              <div class="savings">💰 Économisez {{ savings | money }} ({{ savings_percent }}%)</div>
             {% endif %}
           </div>
           
-          <div class="grid grid-cols-2 gap-4 text-sm">
-            <div class="flex items-center text-blue-600 font-semibold">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
-                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 004.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v8a1 1 0 001 1h2a1 1 0 001-1V8a1 1 0 00-1-1h-2z"/>
-              </svg>
-              Livraison gratuite
+          <div class="guarantees-grid">
+            <div class="guarantee-item" style="color: rgb(37, 99, 235);">
+              🚚 Livraison gratuite
             </div>
-            <div class="flex items-center text-purple-600 font-semibold">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-              </svg>
-              Expédition 24h
+            <div class="guarantee-item" style="color: rgb(147, 51, 234);">
+              ⚡ Expédition 24h
             </div>
-            <div class="flex items-center text-green-600 font-semibold">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              Garantie 30j
+            <div class="guarantee-item" style="color: rgb(34, 197, 94);">
+              🛡️ Garantie 30j
             </div>
-            <div class="flex items-center text-orange-600 font-semibold">
-              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
-              </svg>
-              Paiement sécurisé
+            <div class="guarantee-item" style="color: rgb(249, 115, 22);">
+              🔒 Paiement sécurisé
             </div>
           </div>
         </div>
 
         <!-- Description -->
-        <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-200">
+        <div class="description-card">
           {% if product.description != blank %}
-            <div class="text-lg text-gray-800 font-medium leading-relaxed">
-              {{ product.description }}
-            </div>
+            <div class="description-text">{{ product.description }}</div>
           {% else %}
-            <p class="text-lg text-gray-800 font-medium leading-relaxed">
+            <p class="description-text">
               🚀 <strong>La bague connectée qui révolutionne ton quotidien !</strong> Contrôle tes réseaux sociaux, ta musique et tes photos d'un simple geste. 
               Design minimaliste et discret pour une technologie innovante à portée de main.
             </p>
           {% endif %}
-          <div class="mt-4 flex flex-wrap gap-2">
-            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">📱 Compatible iOS/Android</span>
-            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">🎵 Contrôle musical</span>
-            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">📸 Selfies à distance</span>
+          <div class="feature-tags">
+            <span class="feature-tag tag-blue">📱 Compatible iOS/Android</span>
+            <span class="feature-tag tag-purple">🎵 Contrôle musical</span>
+            <span class="feature-tag tag-green">📸 Selfies à distance</span>
           </div>
         </div>
 
         <!-- Product Form -->
         {% form 'product', product, id: product_form_id %}
           <input type="hidden" name="id" id="selected-variant-id" value="{{ current_variant.id }}">
-          <div class="space-y-4">
+          <div class="form-section">
             {% unless product.has_only_default_variant %}
               {% for option in product.options_with_values %}
-                <div>
-                  <label class="block font-semibold mb-2">{{ option.name }} :</label>
+                <div class="form-group">
+                  <label class="form-label">{{ option.name }} :</label>
                   {% if option.name == 'Couleur' or option.name == 'Color' %}
-                    <div class="flex space-x-3">
+                    <div class="color-options">
                       {% for value in option.values %}
-                        <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="sr-only" {% if option.selected_value == value %}checked{% endif %}>
-                        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                               class="w-12 h-12 rounded-full border-4 transition-all cursor-pointer {% if value contains 'white' or value contains 'Blanc' %}bg-white border-gray-300{% elsif value contains 'black' or value contains 'Noir' %}bg-gray-900{% elsif value contains 'rose' or value contains 'Rose' %}bg-pink-400{% elsif value contains 'blue' or value contains 'Bleu' %}bg-blue-400{% else %}bg-gray-300 border-gray-400{% endif %}">
-                        </label>
+                        <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" style="display: none;" {% if option.selected_value == value %}checked{% endif %}>
+                        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="color-option {% if value contains 'white' or value contains 'Blanc' %}color-white{% elsif value contains 'black' or value contains 'Noir' %}color-black{% elsif value contains 'rose' or value contains 'Rose' %}color-rose{% elsif value contains 'blue' or value contains 'Bleu' %}color-blue{% endif %}{% if option.selected_value == value %} active{% endif %}"></label>
                       {% endfor %}
                     </div>
                   {% else %}
-                    <select name="options[{{ option.name | escape }}]" class="w-full p-3 border-2 border-gray-300 rounded-xl focus:border-blue-400">
+                    <select name="options[{{ option.name | escape }}]" style="width: 100%; padding: 0.75rem; border: 2px solid rgb(209, 213, 219); border-radius: 0.75rem;">
                       {% for value in option.values %}
                         <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
                       {% endfor %}
@@ -177,78 +475,64 @@
               {% endfor %}
             {% endunless %}
 
-            <div>
-              <label class="block font-semibold mb-2">Quantité :</label>
-              <div class="flex items-center space-x-3">
-                <button type="button" onclick="changeQuantity(-1)" class="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 font-bold transition-all">
-                  -
-                </button>
-                <span id="quantity-display" class="w-12 text-center font-semibold">1</span>
+            <div class="form-group">
+              <label class="form-label">Quantité :</label>
+              <div class="quantity-controls">
+                <button type="button" onclick="changeQuantity(-1)" class="quantity-btn">-</button>
+                <span id="quantity-display" class="quantity-display">1</span>
                 <input type="hidden" name="quantity" id="quantity" value="1">
-                <button type="button" onclick="changeQuantity(1)" class="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 font-bold transition-all">
-                  +
-                </button>
+                <button type="button" onclick="changeQuantity(1)" class="quantity-btn">+</button>
               </div>
             </div>
           </div>
 
           <!-- Buy Now Section -->
-          <div class="space-y-4">
-            <div class="bg-red-50 border border-red-200 rounded-xl p-4 text-center">
-              <div class="flex items-center justify-center text-red-600 font-bold mb-2">
-                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                </svg>
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="urgency-alert">
+              <div class="urgency-title">
                 ⏰ Offre limitée dans le temps !
               </div>
-              <p class="text-red-700 text-sm">Plus que 12 unités en stock - Commandez maintenant !</p>
+              <p class="urgency-text">Plus que 12 unités en stock - Commandez maintenant !</p>
             </div>
             
-            <button 
-              type="submit" 
-              name="add"
-              class="w-full bg-gradient-to-r from-blue-400 to-pink-400 hover:from-pink-400 hover:to-blue-400 text-white font-bold py-4 rounded-2xl text-lg shadow-2xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
-            >
-              <span class="relative z-10 flex items-center justify-center">
-                ⚡ Acheter maintenant - <span id="cta-price">{{ current_variant.price | money }}</span> ⚡
-              </span>
-              <div class="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+            <button type="submit" name="add" class="buy-button">
+              ⚡ Acheter maintenant - <span id="cta-price">{{ current_variant.price | money }}</span> ⚡
             </button>
             
-            <p class="text-center text-sm text-gray-600">
+            <p class="security-text">
               ✅ Paiement sécurisé • 📦 Livraison rapide • 🔄 Retour gratuit 30j
             </p>
           </div>
         {% endform %}
 
         <!-- Premium Guarantees -->
-        <div class="bg-gradient-to-br from-green-50 to-blue-50 backdrop-blur-sm border-2 border-green-200 rounded-2xl p-6">
-          <h3 class="font-bold text-gray-800 text-center mb-4">🛡️ VOS GARANTIES PREMIUM</h3>
-          <div class="space-y-4">
-            <div class="flex items-center space-x-3 bg-white/70 rounded-lg p-3 border border-gray-200">
-              <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+        <div class="premium-guarantees">
+          <h3 class="premium-title">🛡️ VOS GARANTIES PREMIUM</h3>
+          <div class="premium-list">
+            <div class="premium-item">
+              <svg style="color: rgb(34, 197, 94);" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-sm font-semibold text-gray-800">Garantie 30 jours satisfait ou remboursé</span>
+              <span>Garantie 30 jours satisfait ou remboursé</span>
             </div>
-            <div class="flex items-center space-x-3 bg-white/70 rounded-lg p-3 border border-gray-200">
-              <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <div class="premium-item">
+              <svg style="color: rgb(37, 99, 235);" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-sm font-semibold text-gray-800">Paiement 100% sécurisé SSL</span>
+              <span>Paiement 100% sécurisé SSL</span>
             </div>
-            <div class="flex items-center space-x-3 bg-white/70 rounded-lg p-3 border border-gray-200">
-              <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+            <div class="premium-item">
+              <svg style="color: rgb(147, 51, 234);" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
                 <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 004.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v8a1 1 0 001 1h2a1 1 0 001-1V8a1 1 0 00-1-1h-2z"/>
               </svg>
-              <span class="text-sm font-semibold text-gray-800">Livraison gratuite en France métropolitaine</span>
+              <span>Livraison gratuite en France métropolitaine</span>
             </div>
-            <div class="flex items-center space-x-3 bg-white/70 rounded-lg p-3 border border-gray-200">
-              <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+            <div class="premium-item">
+              <svg style="color: rgb(220, 38, 38);" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
               </svg>
-              <span class="text-sm font-semibold text-gray-800">Stock limité - Plus que 12 unités !</span>
+              <span>Stock limité - Plus que 12 unités !</span>
             </div>
           </div>
         </div>
@@ -264,17 +548,11 @@
     if (mainImage) mainImage.src = src;
     
     // Update active thumbnail
-    const thumbnails = document.querySelectorAll('[id^="thumb-"]');
-    thumbnails.forEach(thumb => {
-      thumb.classList.remove('border-blue-400', 'scale-105');
-      thumb.classList.add('border-gray-200');
-    });
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    thumbnails.forEach(thumb => thumb.classList.remove('active'));
     
     const activeThumb = document.getElementById('thumb-' + index);
-    if (activeThumb) {
-      activeThumb.classList.remove('border-gray-200');
-      activeThumb.classList.add('border-blue-400', 'scale-105');
-    }
+    if (activeThumb) activeThumb.classList.add('active');
   }
 
   function changeQuantity(change) {
@@ -292,10 +570,7 @@
   document.addEventListener('DOMContentLoaded', function() {
     // Set first thumbnail as active
     const firstThumb = document.getElementById('thumb-0');
-    if (firstThumb) {
-      firstThumb.classList.remove('border-gray-200');
-      firstThumb.classList.add('border-blue-400', 'scale-105');
-    }
+    if (firstThumb) firstThumb.classList.add('active');
 
     // Handle variant changes
     const variants = {{ product.variants | json }};
@@ -313,16 +588,25 @@
         });
       });
       
-      if (selectedVariant) {
+      if (selectedVariant && typeof Shopify !== 'undefined' && Shopify.formatMoney) {
         document.getElementById('selected-variant-id').value = selectedVariant.id;
-        document.getElementById('price').textContent = Shopify.formatMoney(selectedVariant.price, "{{ shop.money_format | replace: '"', '\\"' }}");
-        document.getElementById('cta-price').textContent = Shopify.formatMoney(selectedVariant.price, "{{ shop.money_format | replace: '"', '\\"' }}");
+        const priceElement = document.getElementById('price');
+        const ctaPriceElement = document.getElementById('cta-price');
+        if (priceElement) priceElement.textContent = Shopify.formatMoney(selectedVariant.price, "{{ shop.money_format | replace: '"', '\\"' }}");
+        if (ctaPriceElement) ctaPriceElement.textContent = Shopify.formatMoney(selectedVariant.price, "{{ shop.money_format | replace: '"', '\\"' }}");
       }
     }
 
     // Add event listeners to all variant selectors
     document.querySelectorAll('[name^="options["]').forEach(input => {
-      input.addEventListener('change', updateVariant);
+      input.addEventListener('change', function() {
+        // Update color option active state
+        if (this.type === 'radio' && (this.name.includes('Couleur') || this.name.includes('Color'))) {
+          document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+          document.querySelector('label[for="' + this.id + '"]').classList.add('active');
+        }
+        updateVariant();
+      });
     });
   });
 </script>
