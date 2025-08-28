@@ -7,10 +7,25 @@
     "product-tabs": {
       "type": "product-tabs",
       "settings": {}
+    },
+    "benefits": {
+      "type": "benefits-section",
+      "settings": {}
+    },
+    "testimonials": {
+      "type": "testimonials-section",
+      "settings": {}
+    },
+    "cta": {
+      "type": "cta-section",
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "product-tabs"
+    "product-tabs",
+    "benefits",
+    "testimonials",
+    "cta"
   ]
 }
