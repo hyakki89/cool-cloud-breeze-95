@@ -2,140 +2,227 @@
 {% assign product_form_id = 'ProductForm-' | append: section.id %}
 
 <style>
-/* Styles pour les emojis et icônes */
-.emoji-icon {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  font-size: 16px;
-  line-height: 20px;
-  vertical-align: middle;
-  margin-right: 8px;
-  text-align: center;
+/* Styles pour la page produit */
+.product-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
-.product-benefits {
+.product-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.product-image-container {
+  background: white;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.product-main-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.product-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+.product-thumbnail {
+  width: 100%;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.product-thumbnail:hover {
+  border-color: #3b82f6;
+  transform: scale(1.05);
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.product-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.product-price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.product-price-compare {
+  font-size: 1.5rem;
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.product-button {
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: white;
+  border: none;
+  width: 100%;
+}
+
+.product-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+}
+
+.product-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
   gap: 12px;
 }
 
-.benefit-item {
+.quantity-button {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.quantity-input {
+  width: 60px;
+  text-align: center;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 8px;
+  font-weight: 600;
+}
+
+.price-box {
+  background: linear-gradient(135deg, #f8fafc, #e0f2fe);
+  border: 2px solid #bfdbfe;
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.product-badges {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
   display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 600;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.product-tags .tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 12px;
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
-  margin: 4px;
+  color: white;
 }
 
-/* Styles de base avec Tailwind intégré */
-.zen-container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
-.zen-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-@media (min-width: 1024px) { .zen-grid { grid-template-columns: 1fr 1fr; } }
-.zen-product-image { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; }
-.zen-thumbnails { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 1rem; }
-.zen-thumbnail { width: 100%; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid #e5e7eb; cursor: pointer; transition: all 0.2s; }
-.zen-thumbnail:hover { border-color: #3b82f6; transform: scale(1.05); }
-.zen-price { font-size: 2.5rem; font-weight: 800; color: #1f2937; }
-.zen-price-compare { font-size: 1.5rem; color: #9ca3af; text-decoration: line-through; }
-.zen-btn { padding: 1rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; }
-.zen-btn-primary { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; }
-.zen-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4); }
-.zen-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.zen-quantity { display: flex; align-items: center; gap: 12px; }
-.zen-quantity button { width: 40px; height: 40px; border: 2px solid #d1d5db; border-radius: 8px; background: white; font-weight: bold; }
-.zen-quantity input { width: 60px; text-align: center; border: none; font-weight: 600; }
-.zen-variant-colors { display: flex; gap: 12px; }
-.zen-color-option { width: 40px; height: 40px; border-radius: 50%; border: 3px solid #d1d5db; cursor: pointer; transition: all 0.2s; }
-.zen-color-option:hover, .zen-color-option.selected { border-color: #3b82f6; transform: scale(1.1); }
-.zen-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin: 2px; }
-.zen-badge-new { background: #10b981; color: white; }
-.zen-badge-sale { background: #ef4444; color: white; animation: pulse 2s infinite; }
-.zen-urgency { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 1rem; text-align: center; color: #dc2626; }
-.zen-features { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1rem; }
-.zen-feature { background: #dbeafe; color: #1e40af; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.badge-new {
+  background: #10b981;
+}
+
+.badge-sale {
+  background: #ef4444;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
 </style>
 
-<div class="zen-container" style="padding: 2rem 1rem;">
-  <div class="zen-grid">
-    
+<div class="product-container">
+  <div class="product-grid">
     <!-- Section Images -->
     <div>
-      <div style="position: relative; background: white; border-radius: 16px; padding: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+      <div class="product-image-container" style="position: relative;">
         <img
           id="main-product-image"
           src="{{ current_variant.featured_media.preview_image.url | default: product.featured_media.preview_image.url | image_url: width: 600 }}"
           alt="{{ product.title | escape }}"
-          class="zen-product-image"
+          class="product-main-image"
         />
-        <div style="position: absolute; top: 1rem; left: 1rem; display: flex; flex-direction: column; gap: 8px;">
-          <span class="zen-badge zen-badge-new"><span class="emoji-icon">✨</span>Nouveau</span>
+        <div class="product-badges">
+          <span class="badge badge-new">✨ Nouveau</span>
           {% if current_variant.compare_at_price > current_variant.price %}
             {% assign discount_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round %}
-            <span class="zen-badge zen-badge-sale"><span class="emoji-icon">🔥</span>-{{ discount_percent }}%</span>
+            <span class="badge badge-sale">🔥 -{{ discount_percent }}%</span>
           {% endif %}
         </div>
       </div>
       
-      <div class="zen-thumbnails">
-        {% for image in product.images limit: 4 %}
-          <img
-            src="{{ image | image_url: width: 150 }}"
-            alt="{{ image.alt | escape }}"
-            class="zen-thumbnail"
-            onclick="changeMainImage('{{ image | image_url: width: 600 }}')"
-          />
-        {% endfor %}
-      </div>
+      {% if product.images.size > 1 %}
+        <div class="product-thumbnails">
+          {% for image in product.images limit: 4 %}
+            <img
+              src="{{ image | image_url: width: 150 }}"
+              alt="{{ image.alt | escape }}"
+              class="product-thumbnail"
+              onclick="changeMainImage('{{ image | image_url: width: 600 }}')"
+            />
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
 
     <!-- Informations Produit -->
-    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+    <div class="product-info">
       
-      <!-- Titre et Évaluations -->
+      <!-- Titre -->
       <div>
-        <h1 style="font-size: 2rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem;">{{ product.title }}</h1>
-        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+        <h1 class="product-title">{{ product.title }}</h1>
+        <div style="display: flex; align-items: center; gap: 1rem;">
           <div style="color: #f59e0b; font-size: 18px;">★★★★★</div>
           <span style="color: #6b7280; font-weight: 500;">(4.9/5 - 127 avis)</span>
-          <div style="color: #10b981; font-size: 14px; font-weight: 600;">
-            <span class="emoji-icon">✓</span>+2,000 clients satisfaits
-          </div>
         </div>
       </div>
 
       <!-- Prix -->
-      <div style="background: linear-gradient(135deg, #f8fafc, #e0f2fe); border: 2px solid #bfdbfe; border-radius: 16px; padding: 1.5rem;">
-        <div style="text-align: center; margin-bottom: 1rem;">
-          {% if current_variant.compare_at_price > current_variant.price %}
-            <span class="zen-price-compare">{{ current_variant.compare_at_price | money }}</span>
-          {% endif %}
-          <div id="variant-price" class="zen-price">{{ current_variant.price | money }}</div>
-        </div>
-        
-        <div class="product-benefits">
-          <div class="benefit-item" style="color: #2563eb;">
-            <span class="emoji-icon">🚚</span>Livraison gratuite
-          </div>
-          <div class="benefit-item" style="color: #7c3aed;">
-            <span class="emoji-icon">⚡</span>Expédition 24h
-          </div>
-          <div class="benefit-item" style="color: #059669;">
-            <span class="emoji-icon">🛡️</span>Garantie 30j
-          </div>
-          <div class="benefit-item" style="color: #dc2626;">
-            <span class="emoji-icon">🔒</span>Paiement sécurisé
-          </div>
-        </div>
+      <div class="price-box">
+        {% if current_variant.compare_at_price > current_variant.price %}
+          <span class="product-price-compare">{{ current_variant.compare_at_price | money }}</span>
+        {% endif %}
+        <div id="variant-price" class="product-price">{{ current_variant.price | money }}</div>
       </div>
 
       <!-- Formulaire Produit -->
@@ -144,86 +231,49 @@
         
         {% unless product.has_only_default_variant %}
           {% for option in product.options_with_values %}
-            <div>
+            <div style="margin-bottom: 1rem;">
               <label style="display: block; font-weight: 600; margin-bottom: 8px;">{{ option.name }} :</label>
-              {% if option.name == 'Couleur' or option.name == 'Color' %}
-                <div class="zen-variant-colors">
-                  {% for value in option.values %}
-                    <input 
-                      type="radio" 
-                      name="options[{{ option.name | escape }}]" 
-                      value="{{ value | escape }}" 
-                      id="option-{{ option.name | handleize }}-{{ forloop.index0 }}"
-                      {% if option.selected_value == value %}checked{% endif %}
-                      style="display: none;">
-                    <label 
-                      for="option-{{ option.name | handleize }}-{{ forloop.index0 }}" 
-                      class="zen-color-option {% if option.selected_value == value %}selected{% endif %}"
-                      style="background-color: {% if value contains 'white' or value contains 'Blanc' %}#ffffff{% elsif value contains 'black' or value contains 'Noir' %}#1f2937{% elsif value contains 'rose' or value contains 'Rose' %}#f472b6{% elsif value contains 'blue' or value contains 'Bleu' %}#60a5fa{% else %}#d1d5db{% endif %};">
-                    </label>
-                  {% endfor %}
-                </div>
-              {% else %}
-                <select name="options[{{ option.name | escape }}]" style="width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-weight: 600;">
-                  {% for value in option.values %}
-                    <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
-                  {% endfor %}
-                </select>
-              {% endif %}
+              <select name="options[{{ option.name | escape }}]" style="width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 8px; font-weight: 600;">
+                {% for value in option.values %}
+                  <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+              </select>
             </div>
           {% endfor %}
         {% endunless %}
 
-        <div>
+        <div style="margin-bottom: 1rem;">
           <label style="display: block; font-weight: 600; margin-bottom: 8px;">Quantité :</label>
-          <div class="zen-quantity">
-            <button type="button" onclick="changeQuantity(-1)">-</button>
-            <input type="number" name="quantity" id="quantity" value="1" min="1">
-            <button type="button" onclick="changeQuantity(1)">+</button>
+          <div class="quantity-selector">
+            <button type="button" class="quantity-button" onclick="changeQuantity(-1)">-</button>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" class="quantity-input">
+            <button type="button" class="quantity-button" onclick="changeQuantity(1)">+</button>
           </div>
-        </div>
-
-        <div class="zen-urgency">
-          <div style="font-weight: 700; margin-bottom: 8px;">
-            <span class="emoji-icon">⏰</span>Offre limitée dans le temps !
-          </div>
-          <p style="font-size: 14px;">Plus que 12 unités en stock - Commandez maintenant !</p>
         </div>
         
         <button 
           type="submit" 
           name="add" 
-          class="zen-btn zen-btn-primary"
-          style="width: 100%;"
+          class="product-button"
           {% unless current_variant.available %}disabled{% endunless %}>
           {% if current_variant.available %}
-            <span class="emoji-icon">⚡</span>Acheter maintenant - <span id="add-to-cart-price">{{ current_variant.price | money }}</span>
+            ⚡ Acheter maintenant - <span id="add-to-cart-price">{{ current_variant.price | money }}</span>
           {% else %}
             Rupture de stock
           {% endif %}
         </button>
         
-        <p style="text-align: center; font-size: 14px; color: #6b7280;">
-          <span class="emoji-icon">✅</span>Paiement sécurisé • <span class="emoji-icon">📦</span>Livraison rapide • <span class="emoji-icon">🔄</span>Retour gratuit 30j
+        <p style="text-align: center; font-size: 14px; color: #6b7280; margin-top: 1rem;">
+          ✅ Paiement sécurisé • 📦 Livraison rapide • 🔄 Retour gratuit 30j
         </p>
       {% endform %}
 
       <!-- Description -->
-      <div style="background: linear-gradient(135deg, #eff6ff, #f3e8ff); border: 1px solid #c7d2fe; border-radius: 16px; padding: 1.5rem;">
-        {% if product.description != blank %}
-          <p style="font-size: 16px; color: #374151; font-weight: 500; line-height: 1.6; margin-bottom: 1rem;">{{ product.description }}</p>
-        {% else %}
-          <p style="font-size: 16px; color: #374151; font-weight: 500; line-height: 1.6; margin-bottom: 1rem;">
-            <span class="emoji-icon">🚀</span><strong>La bague connectée qui révolutionne ton quotidien !</strong> Contrôle tes réseaux sociaux, ta musique et tes photos d'un simple geste. 
-            Design minimaliste et discret pour une technologie innovante à portée de main.
-          </p>
-        {% endif %}
-        <div class="zen-features">
-          <span class="zen-feature"><span class="emoji-icon">📱</span>Compatible iOS/Android</span>
-          <span class="zen-feature"><span class="emoji-icon">🎵</span>Contrôle musical</span>
-          <span class="zen-feature"><span class="emoji-icon">📸</span>Selfies à distance</span>
+      {% if product.description != blank %}
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.5rem;">
+          <p style="font-size: 16px; color: #374151; line-height: 1.6; margin: 0;">{{ product.description }}</p>
         </div>
-      </div>
+      {% endif %}
 
     </div>
   </div>
@@ -244,7 +294,10 @@ function changeQuantity(change) {
 // Gestion des variantes Shopify
 document.addEventListener('DOMContentLoaded', function() {
   const productForm = document.querySelector('#{{ product_form_id }}');
+  if (!productForm) return;
+  
   const variants = {{ product.variants | json }};
+  const productOptions = {{ product.options | map: 'name' | json }};
   
   function updateVariant() {
     const formData = new FormData(productForm);
@@ -258,8 +311,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     const selectedVariant = variants.find(variant => {
-      return Object.keys(selectedOptions).every(optionName => {
-        const optionIndex = {{ product.options | map: 'name' | json }}.indexOf(optionName) + 1;
+      return productOptions.every(optionName => {
+        const optionIndex = productOptions.indexOf(optionName) + 1;
         return variant['option' + optionIndex] === selectedOptions[optionName];
       });
     });
@@ -285,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const submitButton = productForm.querySelector('button[type="submit"]');
       if (selectedVariant.available) {
         submitButton.disabled = false;
-        submitButton.innerHTML = `⚡ Acheter maintenant - <span id="add-to-cart-price">${formattedPrice}</span> ⚡`;
+        submitButton.innerHTML = `⚡ Acheter maintenant - <span id="add-to-cart-price">${formattedPrice}</span>`;
       } else {
         submitButton.disabled = true;
         submitButton.textContent = 'Rupture de stock';
