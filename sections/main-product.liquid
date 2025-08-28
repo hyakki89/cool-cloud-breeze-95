@@ -2,371 +2,370 @@
 {% assign product_form_id = 'ProductForm-' | append: section.id %}
 
 <style>
-  .product-page {
+  /* Reset et base */
+  * { box-sizing: border-box; }
+  
+  .zen-product-page {
+    background: #f8fafc;
+    background: linear-gradient(135deg, #f8fafc 0%, #dbeafe 50%, #f3e8ff 100%);
     min-height: 100vh;
-    background: linear-gradient(135deg, rgb(248, 250, 252) 0%, rgb(219, 234, 254) 50%, rgb(243, 232, 255) 100%);
-    font-family: system-ui, -apple-system, sans-serif;
+    padding: 20px 10px;
   }
-  .container {
+  
+  .zen-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 1rem;
   }
-  .product-grid {
+  
+  .zen-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 30px;
   }
-  @media (min-width: 1024px) {
-    .product-grid {
-      grid-template-columns: 1fr 1fr;
-    }
+  
+  @media (min-width: 768px) {
+    .zen-grid { grid-template-columns: 1fr 1fr; }
   }
-  .image-section {
+  
+  /* Images */
+  .zen-image-section {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 15px;
   }
-  .main-image-container {
+  
+  .zen-main-image-box {
     position: relative;
     background: white;
-    border-radius: 1rem;
-    padding: 1rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
-  .main-image {
+  
+  .zen-main-image {
     width: 100%;
-    height: 400px;
+    height: 300px;
     object-fit: cover;
-    border-radius: 0.75rem;
+    border-radius: 10px;
+    display: block;
   }
-  .badges-overlay {
+  
+  .zen-badges {
     position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
+    top: 20px;
+    left: 20px;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
   }
-  .badge {
-    padding: 0.25rem 0.75rem;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
+  
+  .zen-badge {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 13px;
     font-weight: 600;
     color: white;
-  }
-  .badge-green { background-color: rgb(34, 197, 94); }
-  .badge-red { background-color: rgb(239, 68, 68); animation: pulse 2s infinite; }
-  .thumbnails {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
-  }
-  .thumbnail {
-    border: 2px solid rgb(229, 231, 235);
-    border-radius: 0.5rem;
-    overflow: hidden;
-    transition: all 0.3s;
-    cursor: pointer;
-  }
-  .thumbnail:hover, .thumbnail.active {
-    border-color: rgb(96, 165, 250);
-    transform: scale(1.05);
-  }
-  .thumbnail img {
-    width: 100%;
-    height: 80px;
-    object-fit: cover;
-  }
-  .info-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .commercial-badges {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-  .title {
-    font-size: 1.875rem;
-    font-weight: 700;
-    background: linear-gradient(to right, rgb(17, 24, 39), rgb(37, 99, 235), rgb(147, 51, 234));
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    margin-bottom: 1rem;
-  }
-  .reviews {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-  }
-  .stars {
-    display: flex;
-    color: rgb(251, 191, 36);
-  }
-  .price-card {
-    background: linear-gradient(135deg, white 0%, rgb(219, 234, 254) 50%, rgb(243, 232, 255) 100%);
-    border: 2px solid rgb(147, 197, 253);
-    border-radius: 1rem;
-    padding: 1.5rem;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  }
-  .price-display {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  .old-price {
-    font-size: 1.5rem;
-    color: rgb(156, 163, 175);
-    text-decoration: line-through;
-  }
-  .current-price {
-    font-size: 3rem;
-    font-weight: 900;
-    background: linear-gradient(to right, rgb(96, 165, 250), rgb(168, 85, 247), rgb(244, 114, 182));
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    margin-left: 0.75rem;
-  }
-  .savings {
-    background: rgb(220, 252, 231);
-    color: rgb(21, 128, 61);
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    font-weight: 700;
-    font-size: 1.125rem;
-    margin-bottom: 0.75rem;
     display: inline-block;
   }
-  .guarantees-grid {
+  
+  .zen-badge-green { background: #22c55e; }
+  .zen-badge-red { background: #ef4444; }
+  .zen-badge-orange { background: #f97316; }
+  
+  .zen-thumbnails {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    font-size: 0.875rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
   }
-  .guarantee-item {
-    display: flex;
-    align-items: center;
-    font-weight: 600;
-  }
-  .guarantee-item svg {
-    width: 1rem;
-    height: 1rem;
-    margin-right: 0.5rem;
-  }
-  .description-card {
-    background: linear-gradient(to right, rgb(239, 246, 255), rgb(243, 232, 255));
-    border: 1px solid rgb(147, 197, 253);
-    border-radius: 1rem;
-    padding: 1.5rem;
-  }
-  .description-text {
-    font-size: 1.125rem;
-    color: rgb(31, 41, 55);
-    font-weight: 500;
-    line-height: 1.75;
-    margin-bottom: 1rem;
-  }
-  .feature-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  .feature-tag {
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    font-weight: 600;
-  }
-  .tag-blue { background: rgb(219, 234, 254); color: rgb(30, 64, 175); }
-  .tag-purple { background: rgb(233, 213, 255); color: rgb(109, 40, 217); }
-  .tag-green { background: rgb(220, 252, 231); color: rgb(21, 128, 61); }
-  .form-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .form-label {
-    font-weight: 600;
-  }
-  .color-options {
-    display: flex;
-    gap: 0.75rem;
-  }
-  .color-option {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    border: 4px solid transparent;
-    transition: all 0.3s;
-    cursor: pointer;
-  }
-  .color-option:hover {
-    transform: scale(1.1);
-  }
-  .color-option.active {
-    border-color: rgb(96, 165, 250);
-    transform: scale(1.1);
-  }
-  .color-white { background: white; border-color: rgb(209, 213, 219) !important; }
-  .color-black { background: rgb(17, 24, 39); }
-  .color-rose { background: rgb(244, 114, 182); }
-  .color-blue { background: rgb(96, 165, 250); }
-  .quantity-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .quantity-btn {
-    width: 3rem;
-    height: 3rem;
-    border: 2px solid rgb(209, 213, 219);
-    border-radius: 0.5rem;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.25rem;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .quantity-btn:hover {
-    background: rgb(249, 250, 251);
-  }
-  .quantity-display {
-    width: 3rem;
-    text-align: center;
-    font-weight: 600;
-  }
-  .urgency-alert {
-    background: rgb(254, 242, 242);
-    border: 1px solid rgb(252, 165, 165);
-    border-radius: 0.75rem;
-    padding: 1rem;
-    text-align: center;
-  }
-  .urgency-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgb(220, 38, 38);
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-  .urgency-text {
-    color: rgb(185, 28, 28);
-    font-size: 0.875rem;
-  }
-  .buy-button {
-    width: 100%;
-    background: linear-gradient(to right, rgb(96, 165, 250), rgb(244, 114, 182));
-    color: white;
-    font-weight: 700;
-    padding: 1rem;
-    border-radius: 1rem;
-    font-size: 1.125rem;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
-    position: relative;
+  
+  .zen-thumb {
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
     overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: none;
+    padding: 0;
   }
-  .buy-button:hover {
-    background: linear-gradient(to right, rgb(244, 114, 182), rgb(96, 165, 250));
+  
+  .zen-thumb:hover,
+  .zen-thumb.active {
+    border-color: #60a5fa;
     transform: scale(1.05);
   }
-  .security-text {
-    text-align: center;
-    font-size: 0.875rem;
-    color: rgb(107, 114, 128);
-    margin-top: 0.5rem;
+  
+  .zen-thumb img {
+    width: 100%;
+    height: 60px;
+    object-fit: cover;
+    display: block;
   }
-  .premium-guarantees {
-    background: linear-gradient(135deg, rgb(240, 253, 244), rgb(219, 234, 254));
-    border: 2px solid rgb(34, 197, 94);
-    border-radius: 1rem;
-    padding: 1.5rem;
-  }
-  .premium-title {
-    font-weight: 700;
-    color: rgb(31, 41, 55);
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  .premium-list {
+  
+  /* Info section */
+  .zen-info {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 20px;
   }
-  .premium-item {
+  
+  .zen-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  .zen-reviews {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgb(229, 231, 235);
-    border-radius: 0.5rem;
-    padding: 0.75rem;
+    gap: 10px;
+    flex-wrap: wrap;
   }
-  .premium-item svg {
-    width: 1.5rem;
-    height: 1.5rem;
+  
+  .zen-stars {
+    color: #fbbf24;
+    font-size: 18px;
   }
-  .premium-item span {
-    font-size: 0.875rem;
+  
+  .zen-price-box {
+    background: white;
+    border: 2px solid #93c5fd;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .zen-price-main {
+    font-size: 36px;
+    font-weight: 900;
+    color: #1e40af;
+    margin: 10px 0;
+  }
+  
+  .zen-price-old {
+    font-size: 20px;
+    color: #9ca3af;
+    text-decoration: line-through;
+    margin-right: 10px;
+  }
+  
+  .zen-savings {
+    background: #dcfce7;
+    color: #15803d;
+    padding: 8px 15px;
+    border-radius: 20px;
     font-weight: 600;
-    color: rgb(31, 41, 55);
+    display: inline-block;
+    margin: 10px 0;
   }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+  
+  .zen-guarantees {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .zen-guarantee {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+  }
+  
+  /* Description */
+  .zen-description {
+    background: #eff6ff;
+    border: 1px solid #93c5fd;
+    border-radius: 15px;
+    padding: 20px;
+  }
+  
+  .zen-desc-text {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #374151;
+  }
+  
+  .zen-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .zen-tag {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  
+  .zen-tag-blue { background: #dbeafe; color: #1e40af; }
+  .zen-tag-purple { background: #e9d5ff; color: #7c2d12; }
+  .zen-tag-green { background: #dcfce7; color: #15803d; }
+  
+  /* Form */
+  .zen-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .zen-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .zen-label {
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .zen-colors {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .zen-color {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .zen-color:hover,
+  .zen-color.active {
+    border-color: #60a5fa;
+    transform: scale(1.1);
+  }
+  
+  .zen-color-white { background: white; border-color: #d1d5db !important; }
+  .zen-color-black { background: #111827; }
+  .zen-color-rose { background: #f472b6; }
+  .zen-color-blue { background: #60a5fa; }
+  
+  .zen-quantity {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .zen-qty-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .zen-qty-btn:hover {
+    background: #f9fafb;
+    border-color: #60a5fa;
+  }
+  
+  .zen-qty-display {
+    width: 40px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  
+  /* Buy button */
+  .zen-buy-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .zen-urgency {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .zen-urgency-title {
+    color: #dc2626;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  
+  .zen-urgency-text {
+    color: #b91c1c;
+    font-size: 14px;
+  }
+  
+  .zen-buy-btn {
+    width: 100%;
+    background: linear-gradient(to right, #60a5fa, #f472b6);
+    color: white;
+    font-weight: 700;
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .zen-buy-btn:hover {
+    background: linear-gradient(to right, #f472b6, #60a5fa);
+    transform: translateY(-2px);
+  }
+  
+  .zen-security {
+    text-align: center;
+    font-size: 14px;
+    color: #6b7280;
+    margin-top: 10px;
   }
 </style>
 
-<div class="product-page">
-  <div class="container">
-    <div class="product-grid">
+<div class="zen-product-page">
+  <div class="zen-container">
+    <div class="zen-grid">
       
       <!-- Image Section -->
-      <div class="image-section">
-        <div class="main-image-container">
+      <div class="zen-image-section">
+        <div class="zen-main-image-box">
           {% assign featured_media = current_variant.featured_media | default: product.featured_media | default: product.media.first %}
           {% if featured_media %}
             <img
               id="main-product-image"
               src="{{ featured_media | image_url: width: 800 }}"
               alt="{{ product.title | escape }}"
-              class="main-image"
+              class="zen-main-image"
             />
           {% endif %}
-          <div class="badges-overlay">
-            <span class="badge badge-green">✨ Nouveau</span>
+          <div class="zen-badges">
+            <span class="zen-badge zen-badge-green">✨ Nouveau</span>
             {% if current_variant.compare_at_price > current_variant.price %}
               {% assign discount_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round %}
-              <span class="badge badge-red">🔥 -{{ discount_percent }}%</span>
+              <span class="zen-badge zen-badge-red">🔥 -{{ discount_percent }}%</span>
             {% endif %}
+            <span class="zen-badge zen-badge-orange">⚡ Stock limité</span>
           </div>
         </div>
         
-        <div class="thumbnails">
+        <div class="zen-thumbnails">
           {% for media in product.media limit: 4 %}
             {% if media.media_type == 'image' %}
               <button
                 type="button"
                 onclick="changeMainImage('{{ media | image_url: width: 800 }}', {{ forloop.index0 }})"
                 id="thumb-{{ forloop.index0 }}"
-                class="thumbnail"
+                class="zen-thumb"
               >
                 <img src="{{ media | image_url: width: 200 }}" alt="Vue {{ forloop.index }}" />
               </button>
@@ -376,96 +375,72 @@
       </div>
 
       <!-- Info Section -->
-      <div class="info-section">
-        <!-- Commercial badges -->
-        <div class="commercial-badges">
-          <span class="badge badge-green">✨ Nouveau</span>
-          {% if current_variant.compare_at_price > current_variant.price %}
-            {% assign discount_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round %}
-            <span class="badge badge-red">🔥 -{{ discount_percent }}%</span>
-          {% endif %}
-          <span class="badge" style="background-color: rgb(249, 115, 22); color: white;">⚡ Stock limité</span>
-        </div>
-
+      <div class="zen-info">
         <div>
-          <h1 class="title">{{ product.title }}</h1>
-          <div class="reviews">
-            <div class="stars">
-              ★★★★★
-            </div>
-            <span style="color: rgb(107, 114, 128); font-weight: 500;">(4.9/5 - 127 avis)</span>
-            <div style="display: flex; align-items: center; color: rgb(34, 197, 94); font-size: 0.875rem; font-weight: 600;">
-              ✓ +2,000 clients satisfaits
-            </div>
+          <h1 class="zen-title">{{ product.title }}</h1>
+          <div class="zen-reviews">
+            <div class="zen-stars">★★★★★</div>
+            <span style="color: #6b7280; font-weight: 500;">(4.9/5 - 127 avis)</span>
+            <div style="color: #22c55e; font-size: 14px; font-weight: 600;">✓ +2,000 clients satisfaits</div>
           </div>
         </div>
 
         <!-- Price Card -->
-        <div class="price-card">
-          <div class="price-display">
-            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
-              {% if current_variant.compare_at_price > current_variant.price %}
-                <span class="old-price">{{ current_variant.compare_at_price | money }}</span>
-              {% endif %}
-              <span id="price" class="current-price">{{ current_variant.price | money }}</span>
-            </div>
+        <div class="zen-price-box">
+          <div>
+            {% if current_variant.compare_at_price > current_variant.price %}
+              <span class="zen-price-old">{{ current_variant.compare_at_price | money }}</span>
+            {% endif %}
+            <div id="price" class="zen-price-main">{{ current_variant.price | money }}</div>
             {% if current_variant.compare_at_price > current_variant.price %}
               {% assign savings = current_variant.compare_at_price | minus: current_variant.price %}
               {% assign savings_percent = savings | times: 100 | divided_by: current_variant.compare_at_price | round %}
-              <div class="savings">💰 Économisez {{ savings | money }} ({{ savings_percent }}%)</div>
+              <div class="zen-savings">💰 Économisez {{ savings | money }} ({{ savings_percent }}%)</div>
             {% endif %}
           </div>
           
-          <div class="guarantees-grid">
-            <div class="guarantee-item" style="color: rgb(37, 99, 235);">
-              🚚 Livraison gratuite
-            </div>
-            <div class="guarantee-item" style="color: rgb(147, 51, 234);">
-              ⚡ Expédition 24h
-            </div>
-            <div class="guarantee-item" style="color: rgb(34, 197, 94);">
-              🛡️ Garantie 30j
-            </div>
-            <div class="guarantee-item" style="color: rgb(249, 115, 22);">
-              🔒 Paiement sécurisé
-            </div>
+          <div class="zen-guarantees">
+            <div class="zen-guarantee" style="color: #2563eb;">🚚 Livraison gratuite</div>
+            <div class="zen-guarantee" style="color: #9333ea;">⚡ Expédition 24h</div>
+            <div class="zen-guarantee" style="color: #22c55e;">🛡️ Garantie 30j</div>
+            <div class="zen-guarantee" style="color: #f97316;">🔒 Paiement sécurisé</div>
           </div>
         </div>
 
         <!-- Description -->
-        <div class="description-card">
+        <div class="zen-description">
           {% if product.description != blank %}
-            <div class="description-text">{{ product.description }}</div>
+            <div class="zen-desc-text">{{ product.description }}</div>
           {% else %}
-            <p class="description-text">
+            <div class="zen-desc-text">
               🚀 <strong>La bague connectée qui révolutionne ton quotidien !</strong> Contrôle tes réseaux sociaux, ta musique et tes photos d'un simple geste. 
               Design minimaliste et discret pour une technologie innovante à portée de main.
-            </p>
+            </div>
           {% endif %}
-          <div class="feature-tags">
-            <span class="feature-tag tag-blue">📱 Compatible iOS/Android</span>
-            <span class="feature-tag tag-purple">🎵 Contrôle musical</span>
-            <span class="feature-tag tag-green">📸 Selfies à distance</span>
+          <div class="zen-tags">
+            <span class="zen-tag zen-tag-blue">📱 Compatible iOS/Android</span>
+            <span class="zen-tag zen-tag-purple">🎵 Contrôle musical</span>
+            <span class="zen-tag zen-tag-green">📸 Selfies à distance</span>
           </div>
         </div>
 
         <!-- Product Form -->
         {% form 'product', product, id: product_form_id %}
           <input type="hidden" name="id" id="selected-variant-id" value="{{ current_variant.id }}">
-          <div class="form-section">
+          <div class="zen-form">
             {% unless product.has_only_default_variant %}
               {% for option in product.options_with_values %}
-                <div class="form-group">
-                  <label class="form-label">{{ option.name }} :</label>
+                <div class="zen-form-group">
+                  <label class="zen-label">{{ option.name }} :</label>
                   {% if option.name == 'Couleur' or option.name == 'Color' %}
-                    <div class="color-options">
+                    <div class="zen-colors">
                       {% for value in option.values %}
                         <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" style="display: none;" {% if option.selected_value == value %}checked{% endif %}>
-                        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="color-option {% if value contains 'white' or value contains 'Blanc' %}color-white{% elsif value contains 'black' or value contains 'Noir' %}color-black{% elsif value contains 'rose' or value contains 'Rose' %}color-rose{% elsif value contains 'blue' or value contains 'Bleu' %}color-blue{% endif %}{% if option.selected_value == value %} active{% endif %}"></label>
+                        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="zen-color {% if value contains 'white' or value contains 'Blanc' %}zen-color-white{% elsif value contains 'black' or value contains 'Noir' %}zen-color-black{% elsif value contains 'rose' or value contains 'Rose' %}zen-color-rose{% elsif value contains 'blue' or value contains 'Bleu' %}zen-color-blue{% endif %}{% if option.selected_value == value %} active{% endif %}"></label>
                       {% endfor %}
                     </div>
                   {% else %}
-                    <select name="options[{{ option.name | escape }}]" style="width: 100%; padding: 0.75rem; border: 2px solid rgb(209, 213, 219); border-radius: 0.75rem;">
+                    <select name="options[{{ option.name | escape }}]" style="width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 12px; background: white;">
                       {% for value in option.values %}
                         <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
                       {% endfor %}
@@ -475,67 +450,33 @@
               {% endfor %}
             {% endunless %}
 
-            <div class="form-group">
-              <label class="form-label">Quantité :</label>
-              <div class="quantity-controls">
-                <button type="button" onclick="changeQuantity(-1)" class="quantity-btn">-</button>
-                <span id="quantity-display" class="quantity-display">1</span>
+            <div class="zen-form-group">
+              <label class="zen-label">Quantité :</label>
+              <div class="zen-quantity">
+                <button type="button" onclick="changeQuantity(-1)" class="zen-qty-btn">-</button>
+                <span id="quantity-display" class="zen-qty-display">1</span>
                 <input type="hidden" name="quantity" id="quantity" value="1">
-                <button type="button" onclick="changeQuantity(1)" class="quantity-btn">+</button>
+                <button type="button" onclick="changeQuantity(1)" class="zen-qty-btn">+</button>
               </div>
             </div>
           </div>
 
           <!-- Buy Now Section -->
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div class="urgency-alert">
-              <div class="urgency-title">
-                ⏰ Offre limitée dans le temps !
-              </div>
-              <p class="urgency-text">Plus que 12 unités en stock - Commandez maintenant !</p>
+          <div class="zen-buy-section">
+            <div class="zen-urgency">
+              <div class="zen-urgency-title">⏰ Offre limitée dans le temps !</div>
+              <div class="zen-urgency-text">Plus que 12 unités en stock - Commandez maintenant !</div>
             </div>
             
-            <button type="submit" name="add" class="buy-button">
+            <button type="submit" name="add" class="zen-buy-btn">
               ⚡ Acheter maintenant - <span id="cta-price">{{ current_variant.price | money }}</span> ⚡
             </button>
             
-            <p class="security-text">
+            <div class="zen-security">
               ✅ Paiement sécurisé • 📦 Livraison rapide • 🔄 Retour gratuit 30j
-            </p>
+            </div>
           </div>
         {% endform %}
-
-        <!-- Premium Guarantees -->
-        <div class="premium-guarantees">
-          <h3 class="premium-title">🛡️ VOS GARANTIES PREMIUM</h3>
-          <div class="premium-list">
-            <div class="premium-item">
-              <svg style="color: rgb(34, 197, 94);" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-              </svg>
-              <span>Garantie 30 jours satisfait ou remboursé</span>
-            </div>
-            <div class="premium-item">
-              <svg style="color: rgb(37, 99, 235);" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
-              </svg>
-              <span>Paiement 100% sécurisé SSL</span>
-            </div>
-            <div class="premium-item">
-              <svg style="color: rgb(147, 51, 234);" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
-                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 004.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v8a1 1 0 001 1h2a1 1 0 001-1V8a1 1 0 00-1-1h-2z"/>
-              </svg>
-              <span>Livraison gratuite en France métropolitaine</span>
-            </div>
-            <div class="premium-item">
-              <svg style="color: rgb(220, 38, 38);" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
-              </svg>
-              <span>Stock limité - Plus que 12 unités !</span>
-            </div>
-          </div>
-        </div>
 
       </div>
     </div>
@@ -548,7 +489,7 @@
     if (mainImage) mainImage.src = src;
     
     // Update active thumbnail
-    const thumbnails = document.querySelectorAll('.thumbnail');
+    const thumbnails = document.querySelectorAll('.zen-thumb');
     thumbnails.forEach(thumb => thumb.classList.remove('active'));
     
     const activeThumb = document.getElementById('thumb-' + index);
@@ -602,7 +543,7 @@
       input.addEventListener('change', function() {
         // Update color option active state
         if (this.type === 'radio' && (this.name.includes('Couleur') || this.name.includes('Color'))) {
-          document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+          document.querySelectorAll('.zen-color').forEach(opt => opt.classList.remove('active'));
           document.querySelector('label[for="' + this.id + '"]').classList.add('active');
         }
         updateVariant();
