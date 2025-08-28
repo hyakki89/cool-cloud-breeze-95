@@ -1,0 +1,131 @@
+{% comment %}
+  Template Collection - Listing des produits avec design Lovable
+{% endcomment %}
+
+<div class="section floating-clouds">
+  <div class="container">
+    
+    <!-- Header de collection -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">
+        <span class="gradient-text">{{ collection.title }}</span>
+      </h1>
+      {% if collection.description != blank %}
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ collection.description }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Filtres et tri -->
+    <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+      <div class="text-gray-600">
+        {{ collection.products_count }} 
+        {% if collection.products_count == 1 %}produit{% else %}produits{% endif %}
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <!-- Tri -->
+        <select class="form-input" onchange="window.location.href = this.value">
+          <option value="{{ collection.url }}">Trier par</option>
+          <option value="{{ collection.url }}?sort_by=price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>
+            Prix croissant
+          </option>
+          <option value="{{ collection.url }}?sort_by=price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>
+            Prix décroissant
+          </option>
+          <option value="{{ collection.url }}?sort_by=title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>
+            A-Z
+          </option>
+          <option value="{{ collection.url }}?sort_by=created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>
+            Plus récent
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Grille de produits -->
+    {% if collection.products.size > 0 %}
+      <div class="product-grid">
+        {% for product in collection.products %}
+          <div class="product-card group">
+            <!-- Image -->
+            <div class="relative overflow-hidden">
+              <a href="{{ product.url }}">
+                <img 
+                  src="{{ product.featured_image | image_url: width: 400 }}" 
+                  alt="{{ product.title | escape }}"
+                  class="product-image group-hover:scale-110 transition-transform duration-500"
+                />
+              </a>
+              
+              <!-- Badges -->
+              <div class="absolute top-4 left-4 flex flex-col gap-2">
+                {% if product.compare_at_price > product.price %}
+                  {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price | round %}
+                  <span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                    -{{ discount }}%
+                  </span>
+                {% endif %}
+                {% if product.tags contains 'new' %}
+                  <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                    Nouveau
+                  </span>
+                {% endif %}
+              </div>
+
+              <!-- Quick add -->
+              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <button class="btn-cloud text-sm py-2 px-4 quick-add-btn" data-product-id="{{ product.variants.first.id }}">
+                  Ajout rapide ⚡
+                </button>
+              </div>
+            </div>
+
+            <!-- Informations -->
+            <div class="product-info">
+              <h3 class="product-title">
+                <a href="{{ product.url }}" class="hover:text-gray-600 transition-colors">
+                  {{ product.title }}
+                </a>
+              </h3>
+              
+              <div class="flex items-center gap-2 mb-3">
+                <div class="text-yellow-400">★★★★★</div>
+                <span class="text-sm text-gray-500">(4.9)</span>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div class="product-price">
+                  {% if product.compare_at_price > product.price %}
+                    <span class="text-sm text-gray-400 line-through mr-2">{{ product.compare_at_price | money }}</span>
+                  {% endif %}
+                  {{ product.price | money }}
+                </div>
+                
+                <a href="{{ product.url }}" class="text-sky-blue hover:text-pastel-pink transition-colors font-medium">
+                  Voir →
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Pagination -->
+      {% if paginate.pages > 1 %}
+        <div class="flex justify-center mt-12">
+          {{ paginate | default_pagination: next: 'Suivant', previous: 'Précédent' }}
+        </div>
+      {% endif %}
+
+    {% else %}
+      <!-- Collection vide -->
+      <div class="text-center py-16">
+        <h2 class="text-2xl font-semibold mb-4">Aucun produit trouvé</h2>
+        <p class="text-gray-600 mb-6">Cette collection ne contient aucun produit pour le moment.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn-cloud">
+          Voir tous les produits
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,216 @@
+{% comment %}
+  Header section - Navigation principale avec design Lovable
+{% endcomment %}
+
+<header class="main-nav" role="banner">
+  <div class="container">
+    <div class="flex items-center justify-between py-4">
+      
+      <!-- Logo -->
+      <div class="logo">
+        {% if section.settings.logo != blank %}
+          <a href="{{ routes.root_url }}" class="block">
+            <img 
+              src="{{ section.settings.logo | image_url: width: section.settings.logo_width }}" 
+              alt="{{ shop.name | escape }}"
+              width="{{ section.settings.logo_width }}"
+              height="{{ section.settings.logo_width | divided_by: section.settings.logo.aspect_ratio | round }}"
+              class="h-8 md:h-10 w-auto"
+            >
+          </a>
+        {% else %}
+          <a href="{{ routes.root_url }}" class="text-2xl font-bold gradient-text">
+            {{ shop.name }}
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Navigation principale -->
+      <nav class="hidden md:flex items-center gap-8" role="navigation">
+        {% for link in linklists.main-menu.links %}
+          {% if link.links != blank %}
+            <!-- Menu dropdown -->
+            <div class="relative group">
+              <button class="nav-link flex items-center gap-1">
+                {{ link.title }}
+                <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <div class="absolute top-full left-0 min-w-48 bg-white rounded-xl shadow-xl border border-white/20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-30">
+                {% for childlink in link.links %}
+                  <a href="{{ childlink.url }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-50 first:rounded-t-xl last:rounded-b-xl transition-colors">
+                    {{ childlink.title }}
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+          {% else %}
+            <a href="{{ link.url }}" class="nav-link">{{ link.title }}</a>
+          {% endif %}
+        {% endfor %}
+      </nav>
+
+      <!-- Actions header -->
+      <div class="flex items-center gap-4">
+        
+        <!-- Recherche -->
+        {% if section.settings.enable_search %}
+          <button class="search-toggle p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Rechercher">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+        {% endif %}
+
+        <!-- Compte client -->
+        {% if shop.customer_accounts_enabled %}
+          <a href="{{ routes.account_url }}" class="p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Compte">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          </a>
+        {% endif %}
+
+        <!-- Panier -->
+        <button class="cart-trigger relative p-2 hover:bg-white/10 rounded-lg transition-colors" data-cart-trigger aria-label="Panier">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5.5M7 13v6a2 2 0 002 2h6a2 2 0 002-2v-6m-8 0V9a2 2 0 012-2h4a2 2 0 012 2v4"></path>
+          </svg>
+          {% if cart.item_count > 0 %}
+            <span class="absolute -top-1 -right-1 bg-gradient-to-r from-sky-blue to-pastel-pink text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold" data-cart-count>
+              {{ cart.item_count }}
+            </span>
+          {% endif %}
+        </button>
+
+        <!-- Menu mobile -->
+        <button class="mobile-menu-toggle md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors" aria-label="Menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Barre de recherche (cachée par défaut) -->
+    {% if section.settings.enable_search %}
+      <div class="search-bar hidden bg-white/90 backdrop-blur-sm border-t border-white/20 py-4">
+        <form action="{{ routes.search_url }}" method="get" class="max-w-md mx-auto">
+          <div class="relative">
+            <input 
+              type="search" 
+              name="q" 
+              value="{{ search.terms | escape }}"
+              placeholder="Rechercher des produits..."
+              class="form-input pr-12"
+              autocomplete="off"
+            >
+            <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    {% endif %}
+
+    <!-- Menu mobile -->
+    <div class="mobile-menu md:hidden hidden bg-white/95 backdrop-blur-sm border-t border-white/20">
+      <nav class="py-4">
+        {% for link in linklists.main-menu.links %}
+          <div class="border-b border-gray-100 last:border-b-0">
+            {% if link.links != blank %}
+              <button class="mobile-menu-item w-full text-left px-4 py-3 font-medium text-gray-800 flex items-center justify-between">
+                {{ link.title }}
+                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <div class="mobile-submenu hidden bg-gray-50">
+                {% for childlink in link.links %}
+                  <a href="{{ childlink.url }}" class="block px-8 py-2 text-gray-600 hover:text-gray-800">
+                    {{ childlink.title }}
+                  </a>
+                {% endfor %}
+              </div>
+            {% else %}
+              <a href="{{ link.url }}" class="block px-4 py-3 font-medium text-gray-800 hover:text-gray-600">
+                {{ link.title }}
+              </a>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Toggle recherche
+  const searchToggle = document.querySelector('.search-toggle');
+  const searchBar = document.querySelector('.search-bar');
+  
+  if (searchToggle && searchBar) {
+    searchToggle.addEventListener('click', function() {
+      searchBar.classList.toggle('hidden');
+      if (!searchBar.classList.contains('hidden')) {
+        searchBar.querySelector('input').focus();
+      }
+    });
+  }
+
+  // Toggle menu mobile
+  const mobileToggle = document.querySelector('.mobile-menu-toggle');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  
+  if (mobileToggle && mobileMenu) {
+    mobileToggle.addEventListener('click', function() {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  // Sous-menus mobile
+  const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+  mobileMenuItems.forEach(item => {
+    item.addEventListener('click', function() {
+      const submenu = this.nextElementSibling;
+      const icon = this.querySelector('svg');
+      
+      submenu.classList.toggle('hidden');
+      icon.classList.toggle('rotate-180');
+    });
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 250,
+      "step": 10,
+      "default": 100,
+      "unit": "px",
+      "label": "Logo width"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_search",
+      "default": true,
+      "label": "Enable search"
+    }
+  ]
+}
+{% endschema %}
