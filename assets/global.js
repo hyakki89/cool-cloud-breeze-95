@@ -107,29 +107,103 @@ class Cart {
   }
 }
 
+// Add to cart notification function
+function showAddToCartNotification(message, type = 'success') {
+  const notification = document.createElement('div');
+  notification.className = `add-to-cart-notification ${type}`;
+  notification.textContent = message;
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${type === 'success' ? '#10b981' : '#ef4444'};
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    z-index: 9999;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.transform = 'translateX(0)';
+  }, 100);
+  
+  setTimeout(() => {
+    notification.style.transform = 'translateX(400px)';
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        document.body.removeChild(notification);
+      }
+    }, 300);
+  }, 3000);
+}
+
+// Update cart count from Shopify
+function updateCartCount() {
+  fetch('/cart.js')
+    .then(response => response.json())
+    .then(cart => {
+      const cartCount = document.querySelector('.cart-count');
+      if (cartCount) {
+        cartCount.textContent = cart.item_count;
+        cartCount.style.display = cart.item_count > 0 ? 'flex' : 'none';
+      }
+    })
+    .catch(error => console.error('Erreur mise à jour panier:', error));
+}
+
 // Initialize cart
 const cart = new Cart();
 
 // Product form handling
 document.addEventListener('DOMContentLoaded', function() {
-  // Handle product form submissions
-  const productForms = document.querySelectorAll('form[action*="/cart/add"]');
+  // Handle product form submissions with Shopify AJAX
+  const productForms = document.querySelectorAll('.product-form, form[action*="/cart/add"]');
   productForms.forEach(form => {
     form.addEventListener('submit', function(event) {
       event.preventDefault();
       
       const formData = new FormData(form);
-      const variantId = formData.get('id');
-      const quantity = parseInt(formData.get('quantity') || 1);
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalText = submitButton.innerHTML;
       
-      // Add to cart
-      cart.addItem(null, variantId, quantity);
+      // Show loading state
+      submitButton.disabled = true;
+      submitButton.innerHTML = 'Ajout en cours...';
       
-      // Open cart drawer
-      const cartDrawer = document.querySelector('cart-drawer');
-      if (cartDrawer) {
-        cartDrawer.open();
-      }
+      // Use Shopify's AJAX API
+      fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Success - update cart count and show notification
+        updateCartCount();
+        showAddToCartNotification('Produit ajouté au panier !');
+        
+        // Reset button
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalText;
+        
+        // Open cart drawer if it exists
+        const cartDrawer = document.querySelector('cart-drawer');
+        if (cartDrawer) {
+          cartDrawer.open();
+        }
+      })
+      .catch(error => {
+        console.error('Erreur ajout panier:', error);
+        showAddToCartNotification('Erreur lors de l\'ajout au panier', 'error');
+        
+        // Reset button
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalText;
+      });
     });
   });
 
