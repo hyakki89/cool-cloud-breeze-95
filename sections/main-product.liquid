@@ -1,446 +1,129 @@
 {% assign current_variant = product.selected_or_first_available_variant %}
 {% assign product_form_id = 'ProductForm-' | append: section.id %}
 
-<style>
-  /* Reset et base */
-  * { box-sizing: border-box; }
-  
-  .zen-product-page {
-    background: #f8fafc;
-    background: linear-gradient(135deg, #f8fafc 0%, #dbeafe 50%, #f3e8ff 100%);
-    min-height: 100vh;
-    padding: 20px 10px;
-  }
-  
-  .zen-container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .zen-grid {
-    display: grid;
-    gap: 30px;
-  }
-  
-  @media (min-width: 768px) {
-    .zen-grid { grid-template-columns: 1fr 1fr; }
-  }
-  
-  /* Images */
-  .zen-image-section {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .zen-main-image-box {
-    position: relative;
-    background: white;
-    border-radius: 15px;
-    padding: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  }
-  
-  .zen-main-image {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 10px;
-    display: block;
-  }
-  
-  .zen-badges {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .zen-badge {
-    padding: 5px 12px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    color: white;
-    display: inline-block;
-  }
-  
-  .zen-badge-green { background: #22c55e; }
-  .zen-badge-red { background: #ef4444; }
-  .zen-badge-orange { background: #f97316; }
-  
-  .zen-thumbnails {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-  
-  .zen-thumb {
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: none;
-    padding: 0;
-  }
-  
-  .zen-thumb:hover,
-  .zen-thumb.active {
-    border-color: #60a5fa;
-    transform: scale(1.05);
-  }
-  
-  .zen-thumb img {
-    width: 100%;
-    height: 60px;
-    object-fit: cover;
-    display: block;
-  }
-  
-  /* Info section */
-  .zen-info {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .zen-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #1f2937;
-    margin: 0;
-    line-height: 1.2;
-  }
-  
-  .zen-reviews {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  
-  .zen-stars {
-    color: #fbbf24;
-    font-size: 18px;
-  }
-  
-  .zen-price-box {
-    background: white;
-    border: 2px solid #93c5fd;
-    border-radius: 15px;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .zen-price-main {
-    font-size: 36px;
-    font-weight: 900;
-    color: #1e40af;
-    margin: 10px 0;
-  }
-  
-  .zen-price-old {
-    font-size: 20px;
-    color: #9ca3af;
-    text-decoration: line-through;
-    margin-right: 10px;
-  }
-  
-  .zen-savings {
-    background: #dcfce7;
-    color: #15803d;
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-weight: 600;
-    display: inline-block;
-    margin: 10px 0;
-  }
-  
-  .zen-guarantees {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-top: 15px;
-    font-size: 14px;
-  }
-  
-  .zen-guarantee {
-    display: flex;
-    align-items: center;
-    font-weight: 600;
-  }
-  
-  /* Description */
-  .zen-description {
-    background: #eff6ff;
-    border: 1px solid #93c5fd;
-    border-radius: 15px;
-    padding: 20px;
-  }
-  
-  .zen-desc-text {
-    font-size: 16px;
-    line-height: 1.6;
-    margin-bottom: 15px;
-    color: #374151;
-  }
-  
-  .zen-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  
-  .zen-tag {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-  }
-  
-  .zen-tag-blue { background: #dbeafe; color: #1e40af; }
-  .zen-tag-purple { background: #e9d5ff; color: #7c2d12; }
-  .zen-tag-green { background: #dcfce7; color: #15803d; }
-  
-  /* Form */
-  .zen-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .zen-form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .zen-label {
-    font-weight: 600;
-    color: #374151;
-  }
-  
-  .zen-colors {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .zen-color {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .zen-color:hover,
-  .zen-color.active {
-    border-color: #60a5fa;
-    transform: scale(1.1);
-  }
-  
-  .zen-color-white { background: white; border-color: #d1d5db !important; }
-  .zen-color-black { background: #111827; }
-  .zen-color-rose { background: #f472b6; }
-  .zen-color-blue { background: #60a5fa; }
-  
-  .zen-quantity {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .zen-qty-btn {
-    width: 40px;
-    height: 40px;
-    border: 2px solid #d1d5db;
-    border-radius: 8px;
-    background: white;
-    font-size: 20px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .zen-qty-btn:hover {
-    background: #f9fafb;
-    border-color: #60a5fa;
-  }
-  
-  .zen-qty-display {
-    width: 40px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 16px;
-  }
-  
-  /* Buy button */
-  .zen-buy-section {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .zen-urgency {
-    background: #fef2f2;
-    border: 1px solid #fca5a5;
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-  }
-  
-  .zen-urgency-title {
-    color: #dc2626;
-    font-weight: 700;
-    margin-bottom: 5px;
-  }
-  
-  .zen-urgency-text {
-    color: #b91c1c;
-    font-size: 14px;
-  }
-  
-  .zen-buy-btn {
-    width: 100%;
-    background: linear-gradient(to right, #60a5fa, #f472b6);
-    color: white;
-    font-weight: 700;
-    padding: 15px 20px;
-    border-radius: 12px;
-    font-size: 18px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .zen-buy-btn:hover {
-    background: linear-gradient(to right, #f472b6, #60a5fa);
-    transform: translateY(-2px);
-  }
-  
-  .zen-security {
-    text-align: center;
-    font-size: 14px;
-    color: #6b7280;
-    margin-top: 10px;
-  }
-</style>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-<div class="zen-product-page">
-  <div class="zen-container">
-    <div class="zen-grid">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid lg:grid-cols-2 gap-12">
       
-      <!-- Image Section -->
-      <div class="zen-image-section">
-        <div class="zen-main-image-box">
-          {% assign featured_media = current_variant.featured_media | default: product.featured_media | default: product.media.first %}
-          {% if featured_media %}
-            <img
-              id="main-product-image"
-              src="{{ featured_media | image_url: width: 800 }}"
-              alt="{{ product.title | escape }}"
-              class="zen-main-image"
-            />
-          {% endif %}
-          <div class="zen-badges">
-            <span class="zen-badge zen-badge-green">✨ Nouveau</span>
+      <!-- Images Section -->
+      <div class="space-y-4">
+        <div class="relative bg-white rounded-2xl p-4 shadow-lg">
+          <img
+            id="main-product-image"
+            src="{{ current_variant.featured_media.preview_image.url | default: product.featured_media.preview_image.url | image_url: width: 600 }}"
+            alt="{{ product.title | escape }}"
+            class="w-full h-96 object-cover rounded-xl"
+          />
+          <div class="absolute top-6 left-6 space-y-2">
+            <span class="bg-green-500 text-white px-3 py-1 rounded font-semibold text-sm">✨ Nouveau</span>
             {% if current_variant.compare_at_price > current_variant.price %}
               {% assign discount_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round %}
-              <span class="zen-badge zen-badge-red">🔥 -{{ discount_percent }}%</span>
+              <span class="bg-red-500 text-white px-3 py-1 rounded font-semibold text-sm animate-pulse">🔥 -{{ discount_percent }}%</span>
             {% endif %}
-            <span class="zen-badge zen-badge-orange">⚡ Stock limité</span>
           </div>
         </div>
         
-        <div class="zen-thumbnails">
-          {% for media in product.media limit: 4 %}
-            {% if media.media_type == 'image' %}
-              <button
-                type="button"
-                onclick="changeMainImage('{{ media | image_url: width: 800 }}', {{ forloop.index0 }})"
-                id="thumb-{{ forloop.index0 }}"
-                class="zen-thumb"
-              >
-                <img src="{{ media | image_url: width: 200 }}" alt="Vue {{ forloop.index }}" />
-              </button>
-            {% endif %}
+        <div class="grid grid-cols-4 gap-2">
+          {% for image in product.images limit: 4 %}
+            <button
+              type="button"
+              onclick="changeMainImage('{{ image | image_url: width: 600 }}')"
+              class="border-2 rounded-lg overflow-hidden transition-all border-gray-200 hover:border-blue-400 hover:scale-105"
+            >
+              <img src="{{ image | image_url: width: 150 }}" alt="{{ image.alt | escape }}" class="w-full h-20 object-cover" />
+            </button>
           {% endfor %}
         </div>
       </div>
 
-      <!-- Info Section -->
-      <div class="zen-info">
+      <!-- Product Info -->
+      <div class="space-y-6">
+        
         <div>
-          <h1 class="zen-title">{{ product.title }}</h1>
-          <div class="zen-reviews">
-            <div class="zen-stars">★★★★★</div>
-            <span style="color: #6b7280; font-weight: 500;">(4.9/5 - 127 avis)</span>
-            <div style="color: #22c55e; font-size: 14px; font-weight: 600;">✓ +2,000 clients satisfaits</div>
+          <h1 class="text-3xl font-bold bg-gradient-to-r from-gray-900 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">{{ product.title }}</h1>
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="flex text-yellow-400">
+              ★★★★★
+            </div>
+            <span class="text-gray-600 font-medium">(4.9/5 - 127 avis)</span>
+            <div class="flex items-center text-green-600 text-sm font-semibold">
+              ✓ +2,000 clients satisfaits
+            </div>
           </div>
         </div>
 
-        <!-- Price Card -->
-        <div class="zen-price-box">
-          <div>
-            {% if current_variant.compare_at_price > current_variant.price %}
-              <span class="zen-price-old">{{ current_variant.compare_at_price | money }}</span>
-            {% endif %}
-            <div id="price" class="zen-price-main">{{ current_variant.price | money }}</div>
-            {% if current_variant.compare_at_price > current_variant.price %}
-              {% assign savings = current_variant.compare_at_price | minus: current_variant.price %}
-              {% assign savings_percent = savings | times: 100 | divided_by: current_variant.compare_at_price | round %}
-              <div class="zen-savings">💰 Économisez {{ savings | money }} ({{ savings_percent }}%)</div>
-            {% endif %}
+        <!-- Prix -->
+        <div class="bg-gradient-to-br from-white via-blue-50 to-purple-50 backdrop-blur-sm border-2 border-blue-200 shadow-xl rounded-2xl p-6">
+          <div class="text-center mb-4">
+            <div class="flex items-center justify-center space-x-3 mb-2">
+              {% if current_variant.compare_at_price > current_variant.price %}
+                <span class="text-2xl text-gray-400 line-through">{{ current_variant.compare_at_price | money }}</span>
+              {% endif %}
+              <span id="variant-price" class="text-5xl font-black bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent">{{ current_variant.price | money }}</span>
+            </div>
           </div>
           
-          <div class="zen-guarantees">
-            <div class="zen-guarantee" style="color: #2563eb;">🚚 Livraison gratuite</div>
-            <div class="zen-guarantee" style="color: #9333ea;">⚡ Expédition 24h</div>
-            <div class="zen-guarantee" style="color: #22c55e;">🛡️ Garantie 30j</div>
-            <div class="zen-guarantee" style="color: #f97316;">🔒 Paiement sécurisé</div>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="flex items-center text-blue-600 font-semibold">
+              🚚 Livraison gratuite
+            </div>
+            <div class="flex items-center text-purple-600 font-semibold">
+              ⚡ Expédition 24h
+            </div>
+            <div class="flex items-center text-green-600 font-semibold">
+              🛡️ Garantie 30j
+            </div>
+            <div class="flex items-center text-orange-600 font-semibold">
+              🔒 Paiement sécurisé
+            </div>
           </div>
         </div>
 
         <!-- Description -->
-        <div class="zen-description">
+        <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-200">
           {% if product.description != blank %}
-            <div class="zen-desc-text">{{ product.description }}</div>
+            <p class="text-lg text-gray-800 font-medium leading-relaxed mb-4">{{ product.description }}</p>
           {% else %}
-            <div class="zen-desc-text">
+            <p class="text-lg text-gray-800 font-medium leading-relaxed mb-4">
               🚀 <strong>La bague connectée qui révolutionne ton quotidien !</strong> Contrôle tes réseaux sociaux, ta musique et tes photos d'un simple geste. 
               Design minimaliste et discret pour une technologie innovante à portée de main.
-            </div>
+            </p>
           {% endif %}
-          <div class="zen-tags">
-            <span class="zen-tag zen-tag-blue">📱 Compatible iOS/Android</span>
-            <span class="zen-tag zen-tag-purple">🎵 Contrôle musical</span>
-            <span class="zen-tag zen-tag-green">📸 Selfies à distance</span>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">📱 Compatible iOS/Android</span>
+            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">🎵 Contrôle musical</span>
+            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">📸 Selfies à distance</span>
           </div>
         </div>
 
-        <!-- Product Form -->
+        <!-- Formulaire Produit -->
         {% form 'product', product, id: product_form_id %}
-          <input type="hidden" name="id" id="selected-variant-id" value="{{ current_variant.id }}">
-          <div class="zen-form">
+          <div class="space-y-4">
+            
             {% unless product.has_only_default_variant %}
               {% for option in product.options_with_values %}
-                <div class="zen-form-group">
-                  <label class="zen-label">{{ option.name }} :</label>
+                <div>
+                  <label class="block font-semibold mb-2">{{ option.name }} :</label>
                   {% if option.name == 'Couleur' or option.name == 'Color' %}
-                    <div class="zen-colors">
+                    <div class="flex space-x-3">
                       {% for value in option.values %}
-                        <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" style="display: none;" {% if option.selected_value == value %}checked{% endif %}>
-                        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="zen-color {% if value contains 'white' or value contains 'Blanc' %}zen-color-white{% elsif value contains 'black' or value contains 'Noir' %}zen-color-black{% elsif value contains 'rose' or value contains 'Rose' %}zen-color-rose{% elsif value contains 'blue' or value contains 'Bleu' %}zen-color-blue{% endif %}{% if option.selected_value == value %} active{% endif %}"></label>
+                        <input 
+                          type="radio" 
+                          name="options[{{ option.name | escape }}]" 
+                          value="{{ value | escape }}" 
+                          id="option-{{ option.name | handleize }}-{{ forloop.index0 }}"
+                          {% if option.selected_value == value %}checked{% endif %}
+                          class="sr-only">
+                        <label 
+                          for="option-{{ option.name | handleize }}-{{ forloop.index0 }}" 
+                          class="w-12 h-12 rounded-full border-4 cursor-pointer transition-all hover:scale-110 {% if value contains 'white' or value contains 'Blanc' %}bg-white border-gray-300{% elsif value contains 'black' or value contains 'Noir' %}bg-gray-900 border-gray-900{% elsif value contains 'rose' or value contains 'Rose' %}bg-pink-400 border-pink-400{% elsif value contains 'blue' or value contains 'Bleu' %}bg-blue-400 border-blue-400{% else %}bg-gray-300 border-gray-300{% endif %}">
+                        </label>
                       {% endfor %}
                     </div>
                   {% else %}
-                    <select name="options[{{ option.name | escape }}]" style="width: 100%; padding: 12px; border: 2px solid #d1d5db; border-radius: 12px; background: white;">
+                    <select name="options[{{ option.name | escape }}]" class="w-full p-3 border-2 border-gray-300 rounded-xl focus:border-blue-400">
                       {% for value in option.values %}
                         <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
                       {% endfor %}
@@ -450,31 +133,37 @@
               {% endfor %}
             {% endunless %}
 
-            <div class="zen-form-group">
-              <label class="zen-label">Quantité :</label>
-              <div class="zen-quantity">
-                <button type="button" onclick="changeQuantity(-1)" class="zen-qty-btn">-</button>
-                <span id="quantity-display" class="zen-qty-display">1</span>
-                <input type="hidden" name="quantity" id="quantity" value="1">
-                <button type="button" onclick="changeQuantity(1)" class="zen-qty-btn">+</button>
+            <div>
+              <label class="block font-semibold mb-2">Quantité :</label>
+              <div class="flex items-center space-x-3">
+                <button type="button" onclick="changeQuantity(-1)" class="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 font-bold">-</button>
+                <input type="number" name="quantity" id="quantity" value="1" min="1" class="w-16 text-center font-semibold border-0 bg-transparent">
+                <button type="button" onclick="changeQuantity(1)" class="w-12 h-12 border-2 border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 font-bold">+</button>
               </div>
             </div>
-          </div>
 
-          <!-- Buy Now Section -->
-          <div class="zen-buy-section">
-            <div class="zen-urgency">
-              <div class="zen-urgency-title">⏰ Offre limitée dans le temps !</div>
-              <div class="zen-urgency-text">Plus que 12 unités en stock - Commandez maintenant !</div>
+            <div class="bg-red-50 border border-red-200 rounded-xl p-4 text-center">
+              <div class="flex items-center justify-center text-red-600 font-bold mb-2">
+                ⏰ Offre limitée dans le temps !
+              </div>
+              <p class="text-red-700 text-sm">Plus que 12 unités en stock - Commandez maintenant !</p>
             </div>
             
-            <button type="submit" name="add" class="zen-buy-btn">
-              ⚡ Acheter maintenant - <span id="cta-price">{{ current_variant.price | money }}</span> ⚡
+            <button 
+              type="submit" 
+              name="add" 
+              class="w-full bg-gradient-to-r from-blue-400 to-pink-400 hover:from-pink-400 hover:to-blue-400 text-white font-bold py-4 rounded-2xl text-lg shadow-2xl transform hover:scale-105 transition-all duration-300"
+              {% unless current_variant.available %}disabled{% endunless %}>
+              {% if current_variant.available %}
+                ⚡ Acheter maintenant - <span id="add-to-cart-price">{{ current_variant.price | money }}</span> ⚡
+              {% else %}
+                Rupture de stock
+              {% endif %}
             </button>
             
-            <div class="zen-security">
+            <p class="text-center text-sm text-gray-600">
               ✅ Paiement sécurisé • 📦 Livraison rapide • 🔄 Retour gratuit 30j
-            </div>
+            </p>
           </div>
         {% endform %}
 
@@ -484,70 +173,83 @@
 </div>
 
 <script>
-  function changeMainImage(src, index) {
-    const mainImage = document.getElementById('main-product-image');
-    if (mainImage) mainImage.src = src;
-    
-    // Update active thumbnail
-    const thumbnails = document.querySelectorAll('.zen-thumb');
-    thumbnails.forEach(thumb => thumb.classList.remove('active'));
-    
-    const activeThumb = document.getElementById('thumb-' + index);
-    if (activeThumb) activeThumb.classList.add('active');
-  }
+function changeMainImage(src) {
+  document.getElementById('main-product-image').src = src;
+}
 
-  function changeQuantity(change) {
-    const quantityInput = document.getElementById('quantity');
-    const quantityDisplay = document.getElementById('quantity-display');
-    if (!quantityInput || !quantityDisplay) return;
-    
-    const currentValue = parseInt(quantityInput.value || '1');
-    const newValue = Math.max(1, Math.min(10, currentValue + change));
-    quantityInput.value = newValue;
-    quantityDisplay.textContent = newValue;
-  }
+function changeQuantity(change) {
+  const quantityInput = document.getElementById('quantity');
+  const currentValue = parseInt(quantityInput.value);
+  const newValue = Math.max(1, currentValue + change);
+  quantityInput.value = newValue;
+}
 
-  // Initialize on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    // Set first thumbnail as active
-    const firstThumb = document.getElementById('thumb-0');
-    if (firstThumb) firstThumb.classList.add('active');
-
-    // Handle variant changes
-    const variants = {{ product.variants | json }};
+// Gestion des variantes Shopify
+document.addEventListener('DOMContentLoaded', function() {
+  const productForm = document.querySelector('#{{ product_form_id }}');
+  const variants = {{ product.variants | json }};
+  
+  function updateVariant() {
+    const formData = new FormData(productForm);
+    const selectedOptions = {};
     
-    function updateVariant() {
-      const selectedOptions = [];
-      {% for option in product.options_with_values %}
-        const option{{ forloop.index }} = document.querySelector('[name="options[{{ option.name | escape }}]"]:checked') || document.querySelector('select[name="options[{{ option.name | escape }}]"]');
-        selectedOptions.push(option{{ forloop.index }} ? option{{ forloop.index }}.value : null);
-      {% endfor %}
-      
-      const selectedVariant = variants.find(variant => {
-        return selectedOptions.every((option, index) => {
-          return !option || variant['option' + (index + 1)] === option;
-        });
-      });
-      
-      if (selectedVariant && typeof Shopify !== 'undefined' && Shopify.formatMoney) {
-        document.getElementById('selected-variant-id').value = selectedVariant.id;
-        const priceElement = document.getElementById('price');
-        const ctaPriceElement = document.getElementById('cta-price');
-        if (priceElement) priceElement.textContent = Shopify.formatMoney(selectedVariant.price, "{{ shop.money_format | replace: '"', '\\"' }}");
-        if (ctaPriceElement) ctaPriceElement.textContent = Shopify.formatMoney(selectedVariant.price, "{{ shop.money_format | replace: '"', '\\"' }}");
+    for (let [key, value] of formData.entries()) {
+      if (key.startsWith('options[')) {
+        const optionName = key.match(/\[(.*?)\]/)[1];
+        selectedOptions[optionName] = value;
       }
     }
-
-    // Add event listeners to all variant selectors
-    document.querySelectorAll('[name^="options["]').forEach(input => {
-      input.addEventListener('change', function() {
-        // Update color option active state
-        if (this.type === 'radio' && (this.name.includes('Couleur') || this.name.includes('Color'))) {
-          document.querySelectorAll('.zen-color').forEach(opt => opt.classList.remove('active'));
-          document.querySelector('label[for="' + this.id + '"]').classList.add('active');
-        }
-        updateVariant();
+    
+    const selectedVariant = variants.find(variant => {
+      return Object.keys(selectedOptions).every(optionName => {
+        const optionIndex = {{ product.options | map: 'name' | json }}.indexOf(optionName) + 1;
+        return variant['option' + optionIndex] === selectedOptions[optionName];
       });
     });
-  });
+    
+    if (selectedVariant) {
+      // Mettre à jour le prix
+      const priceElement = document.getElementById('variant-price');
+      const addToCartPrice = document.getElementById('add-to-cart-price');
+      const formattedPrice = new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: '{{ cart.currency.iso_code }}'
+      }).format(selectedVariant.price / 100);
+      
+      if (priceElement) priceElement.textContent = formattedPrice;
+      if (addToCartPrice) addToCartPrice.textContent = formattedPrice;
+      
+      // Mettre à jour l'image principale si la variante a une image
+      if (selectedVariant.featured_media && selectedVariant.featured_media.preview_image) {
+        changeMainImage(selectedVariant.featured_media.preview_image.url);
+      }
+      
+      // Gérer la disponibilité
+      const submitButton = productForm.querySelector('button[type="submit"]');
+      if (selectedVariant.available) {
+        submitButton.disabled = false;
+        submitButton.innerHTML = `⚡ Acheter maintenant - <span id="add-to-cart-price">${formattedPrice}</span> ⚡`;
+      } else {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Rupture de stock';
+      }
+      
+      // Mettre à jour l'input hidden avec l'ID de la variante
+      let variantInput = productForm.querySelector('input[name="id"]');
+      if (!variantInput) {
+        variantInput = document.createElement('input');
+        variantInput.type = 'hidden';
+        variantInput.name = 'id';
+        productForm.appendChild(variantInput);
+      }
+      variantInput.value = selectedVariant.id;
+    }
+  }
+  
+  // Écouter les changements d'options
+  productForm.addEventListener('change', updateVariant);
+  
+  // Mise à jour initiale
+  updateVariant();
+});
 </script>
